@@ -6,6 +6,9 @@
   max-width: 60%;
   word-wrap: break-word;
   background-color: #fff;
+  align-self: flex-start;
+  font-weight: 400;
+  font-size: 18px;
 }
 
 .messageRight {
@@ -27,4 +30,11 @@
   color: gray;
   margin-top: 5px;
   text-align: right;
+}
+
+.name {
+  font-weight: 500;
+  font-size: 16px;
+  text-align: right;
+  color: #515151;
 }

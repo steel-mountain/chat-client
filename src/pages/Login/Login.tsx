@@ -1,13 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import styles from "./Login.module.scss";
 import { useState } from "react";
+import { IFormData, ISocketProps } from "../../types/socket.types";
 
-interface IFormData {
-  name: string;
-  room: string;
-}
-
-const Login: React.FC = () => {
+const Login: React.FC<ISocketProps> = ({ socket }) => {
   const navigate = useNavigate();
   const [data, setData] = useState<IFormData>({
     name: "",
@@ -25,7 +21,13 @@ const Login: React.FC = () => {
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    navigate(`/chat?name=${data.name}&room=${data.room}`);
+    socket.emit("checkName", data, (isUnique: boolean) => {
+      if (isUnique) {
+        navigate(`/chat?name=${data.name}&room=${data.room}`);
+      } else {
+        alert("Nickname is already used, please choose another name");
+      }
+    });
   };
 
   return (

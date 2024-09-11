@@ -3,8 +3,13 @@ import smile from "../../images/smile.svg";
 import send from "../../images/send.svg";
 import { useEffect, useRef, useState } from "react";
 import Message from "../message/Message";
+import { IEmitMessage } from "../../types/socket.types";
 
-const Content: React.FC = () => {
+interface IContentProps {
+  messages: IEmitMessage[];
+}
+
+const Content: React.FC<IContentProps> = ({ messages }) => {
   const [text, setText] = useState<string>("");
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
@@ -27,38 +32,9 @@ const Content: React.FC = () => {
         <div className={styles.logout}>Leave chat</div>
       </div>
       <div className={styles.content}>
-        <Message text="HellO!" isUser={true} time="19:15" />
-        <Message text="Bye!" isUser={false} time="19:15" />
-        <Message
-          text="Byeсайт, сочетающий черты социальной сети и форума, на котором зарегистрированные пользователи могут размещать ссылки на какую-либо понравившуюся информацию в интернете и обсуждать её[7]. Как и многие другие подобные сайты, Reddit поддерживает систему голосования за понравившиеся сообщения — наиболее популярные из них оказываются на заглавной страниц"
-          isUser={false}
-          time="19:15"
-        />
-        <Message
-          text="Byeсайт, сочетающий червания за понравившиеся сообщения — наиболее популярные из них оказываются на заглавной страниц"
-          isUser={false}
-          time="19:15"
-        />
-        <Message
-          text="Byeсайт, сочетающий черты социальной сети и форума, на котором зарегистрированные пользователи могут размещать ссылки на какую-либо понравившуюся информацию в интернете и обсуждать её[7]. Как и многие другие подобные сайты, Reddit поддерживает систему голосования за понравившиеся сообщения — наиболее популярные из них оказываются на заглавной страниц"
-          isUser={true}
-          time="19:15"
-        />
-        <Message
-          text="Byeсайт, сочетающий червания за понравившиеся сообщения — наиболее популярные из них оказываются на заглавной страниц"
-          isUser={true}
-          time="19:15"
-        />
-        <Message
-          text="Byeсайт, сочетающий черты социальной сети и форума, на котором зарегистрированные пользователи могут размещать ссылки на какую-либо понравившуюся информацию в интернете и обсуждать её[7]. Как и многие другие подобные сайты, Reddit поддерживает систему голосования за понравившиеся сообщения — наиболее популярные из них оказываются на заглавной страниц"
-          isUser={false}
-          time="19:15"
-        />
-        <Message
-          text="Byeсайт, сочетающий червания за понравившиеся сообщения — наиболее популярные из них оказываются на заглавной страниц"
-          isUser={true}
-          time="19:15"
-        />
+        {messages.map((msg, i) => {
+          return <Message key={i} msg={msg} />;
+        })}
       </div>
       <div className={styles.typing}>
         <img src={smile} alt="emoji" />
