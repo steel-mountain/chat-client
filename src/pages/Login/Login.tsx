@@ -1,9 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import styles from "./Login.module.scss";
 import { useState } from "react";
-import { IFormData, ISocketProps } from "../../types/socket.types";
+import { IFormData, ISocket } from "../../types/socket.types";
+import { getTrimStr } from "../../services/getTrimStr";
 
-const Login: React.FC<ISocketProps> = ({ socket }) => {
+const Login: React.FC<ISocket> = ({ socket }) => {
   const navigate = useNavigate();
   const [data, setData] = useState<IFormData>({
     name: "",
@@ -23,7 +24,9 @@ const Login: React.FC<ISocketProps> = ({ socket }) => {
     e.preventDefault();
     socket.emit("checkName", data, (isUnique: boolean) => {
       if (isUnique) {
-        navigate(`/chat?name=${data.name}&room=${data.room}`);
+        navigate(
+          `/chat?name=${getTrimStr(data.name)}&room=${getTrimStr(data.room)}`
+        );
       } else {
         alert("Nickname is already used, please choose another name");
       }
@@ -41,6 +44,7 @@ const Login: React.FC<ISocketProps> = ({ socket }) => {
           type="text"
           onChange={onChangeForm}
           value={data.name}
+          required
         />
         <input
           name="room"
@@ -49,6 +53,7 @@ const Login: React.FC<ISocketProps> = ({ socket }) => {
           type="text"
           onChange={onChangeForm}
           value={data.room}
+          required
         />
         <button className={styles.btn} type="submit" disabled={disable}>
           Join and chat

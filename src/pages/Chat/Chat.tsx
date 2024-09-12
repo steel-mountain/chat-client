@@ -6,12 +6,14 @@ import { useEffect, useState } from "react";
 import {
   IFormData,
   IEmitMessage,
-  ISocketProps,
+  ISocket,
+  IUsers,
 } from "../../types/socket.types";
 
-const Chat: React.FC<ISocketProps> = ({ socket }) => {
-  const [params, setParams] = useState<IFormData>();
+const Chat: React.FC<ISocket> = ({ socket }) => {
+  const [params, setParams] = useState<IFormData>({ name: "", room: "" });
   const [messages, setMessages] = useState<IEmitMessage[]>([]);
+  const [users, setUsers] = useState<IUsers[]>([]);
   const { search } = useLocation();
 
   useEffect(() => {
@@ -24,15 +26,19 @@ const Chat: React.FC<ISocketProps> = ({ socket }) => {
     socket.on("message", (data: IEmitMessage) => {
       setMessages((msg) => [...msg, data]);
     });
+    socket.on("users", (data: IUsers[]) => {
+      setUsers(data);
+    });
     return () => {
       socket.off("message");
+      socket.off("users");
     };
   }, []);
 
   return (
     <section className={styles.wrapper}>
-      <Sidebar />
-      <Content messages={messages} />
+      <Sidebar users={users} />
+      <Content messages={messages} params={params} socket={socket} />
     </section>
   );
 };

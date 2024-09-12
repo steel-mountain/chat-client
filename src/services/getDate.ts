@@ -1,4 +1,7 @@
 export const getDate = () => {
   const date = new Date();
-  return `${date.getHours()}:${date.getMinutes()}`;
+
+  const formatNumber = (num: number) => String(num).padStart(2, "0");
+
+  return `${formatNumber(date.getHours())}:${formatNumber(date.getMinutes())}`;
 };

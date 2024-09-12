@@ -1,9 +1,25 @@
+import { useState } from "react";
 import logo from "../../images/logo.svg";
-import user from "../../images/user.svg";
+import userphoto from "../../images/user.svg";
+import { IUsers } from "../../types/socket.types";
 
 import styles from "./Sidebar.module.scss";
 
-const Sidebar: React.FC = () => {
+interface ISidebarProps {
+  users: IUsers[];
+}
+
+const Sidebar: React.FC<ISidebarProps> = ({ users }) => {
+  const [search, setSearch] = useState("");
+
+  const onChangeText = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+  };
+
+  const filterUsers = users.filter((user) =>
+    user.name.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
     <section className={styles.sidebar}>
       <div className={styles.header}>
@@ -16,14 +32,25 @@ const Sidebar: React.FC = () => {
             className={styles.input}
             type="text"
             placeholder="Search people"
+            value={search}
+            onChange={onChangeText}
           />
         </div>
       </div>
       <ul className={styles.items}>
-        <li className={styles.item}>
-          <img className={styles.photoImg} src={user} alt="photo" />
-          <p className={styles.photo}>Lucas Williams</p>
-        </li>
+        {search === ""
+          ? users.map((user) => (
+              <li className={styles.item} key={user.id}>
+                <img className={styles.photoImg} src={userphoto} alt="photo" />
+                <p className={styles.photo}>{user.name}</p>
+              </li>
+            ))
+          : filterUsers.map((user) => (
+              <li className={styles.item} key={user.id}>
+                <img className={styles.photoImg} src={userphoto} alt="photo" />
+                <p className={styles.photo}>{user.name}</p>
+              </li>
+            ))}
       </ul>
     </section>
   );
