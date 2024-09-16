@@ -43,11 +43,25 @@
   height: 500px;
 }
 
-.emojiBlock {
-  width: 350px;
+.emoji {
+  cursor: pointer;
 }
 
-.emoji {
+.emojiBlock {
+  position: absolute;
+  bottom: 85px;
+}
+
+.menuBlock {
+  position: relative;
+  cursor: pointer;
+}
+
+.paperclip {
+  width: 28px;
+  height: 28px;
+  margin-right: 20px;
+  z-index: 100;
   cursor: pointer;
 }
 
@@ -62,12 +76,11 @@
 }
 
 .inputMessage {
-  margin-left: 20px;
+  margin: 0 20px;
   font-weight: 400;
   font-size: 24px;
   border: none;
   flex-grow: 1;
-  margin-right: 25px;
   resize: none;
   overflow-y: hidden;
   max-height: 400px;
@@ -91,5 +104,9 @@
   cursor: pointer;
   span {
     margin-right: 10px;
+  }
+  &:hover {
+    transition: all 1s ease;
+    transform: scale(1.1);
   }
 }

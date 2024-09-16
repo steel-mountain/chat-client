@@ -9,6 +9,9 @@
   align-self: flex-start;
   font-weight: 400;
   font-size: 18px;
+  div span {
+    margin-bottom: 10px;
+  }
 }
 
 .messageRight {
@@ -23,6 +26,10 @@
 .chatContainer {
   display: flex;
   flex-direction: column;
+}
+
+.img {
+  margin-top: 15px;
 }
 
 .time {

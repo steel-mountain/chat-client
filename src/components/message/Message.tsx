@@ -1,17 +1,17 @@
 import { CSSProperties } from "react";
 import styles from "./Message.module.scss";
-import { IEmitMessage } from "../../types/socket.types";
+import { IGetMessage } from "../../types/socket.types";
 import { getDate } from "../../services/getDate";
 import { useLocation } from "react-router-dom";
 
 interface MessageProps {
-  msg: IEmitMessage;
+  msg: IGetMessage;
 }
 
 const Message: React.FC<MessageProps> = ({ msg }) => {
   const { search } = useLocation();
   const { name: user } = Object.fromEntries(new URLSearchParams(search));
-  const { name, message } = msg;
+  const { name, message, url } = msg;
 
   const isUser = user === name;
   const dir: CSSProperties = isUser
@@ -25,7 +25,14 @@ const Message: React.FC<MessageProps> = ({ msg }) => {
       </p>
       <div className={`${styles.message} ${isUser ? styles.messageRight : ""}`}>
         <div>
-          {message}
+          <span>{message}</span>
+          {url && (
+            <img
+              className={styles.img}
+              src={`http://localhost:5000${url}`}
+              alt="Uploaded file"
+            />
+          )}
           <div className={styles.time}>{getDate()}</div>
         </div>
       </div>

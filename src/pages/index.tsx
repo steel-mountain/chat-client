@@ -2,7 +2,7 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Login from "./Login/Login";
 import Chat from "./Chat/Chat";
-import { Socket, io } from "socket.io-client";
+import { io } from "socket.io-client";
 import { SocketType } from "../types/socket.types";
 
 const socket: SocketType = io("http://localhost:5000/");

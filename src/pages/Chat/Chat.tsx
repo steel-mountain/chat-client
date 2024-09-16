@@ -5,14 +5,14 @@ import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import {
   IFormData,
-  IEmitMessage,
   ISocket,
   IUsers,
+  IGetMessage,
 } from "../../types/socket.types";
 
 const Chat: React.FC<ISocket> = ({ socket }) => {
   const [params, setParams] = useState<IFormData>({ name: "", room: "" });
-  const [messages, setMessages] = useState<IEmitMessage[]>([]);
+  const [messages, setMessages] = useState<IGetMessage[]>([]);
   const [users, setUsers] = useState<IUsers[]>([]);
   const { search } = useLocation();
 
@@ -23,10 +23,10 @@ const Chat: React.FC<ISocket> = ({ socket }) => {
   }, [search]);
 
   useEffect(() => {
-    socket.on("message", (data: IEmitMessage) => {
+    socket.on("message", (data) => {
       setMessages((msg) => [...msg, data]);
     });
-    socket.on("users", (data: IUsers[]) => {
+    socket.on("users", (data) => {
       setUsers(data);
     });
     return () => {

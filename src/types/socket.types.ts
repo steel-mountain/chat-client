@@ -18,12 +18,20 @@ export interface IEmitMessage {
 
 export interface ISendMessage {
   params: IFormData;
-  message: string;
+  message?: string;
+  fileName?: string;
+  dataBuffer?: ArrayBuffer;
+}
+
+export interface IGetMessage {
+  name: string;
+  message?: string;
+  url?: string;
 }
 
 export interface ServerToClientEvents {
-  message: (data: IEmitMessage) => void;
-  users: (users: IUsers[]) => void;
+  message: (data: IGetMessage) => void;
+  users: (data: IUsers[]) => void;
 }
 
 export interface ClientToServerEvents {
