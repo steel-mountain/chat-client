@@ -33,16 +33,14 @@ const Content: React.FC<IContentProps> = memo(
     useClickOutside({ ref: menuRef, setOpen: setOpenMenu });
 
     useEffect(() => {
+      textareaRef.current?.focus();
+
       const textarea = textareaRef.current;
       if (textarea) {
         textarea.style.height = "auto";
         textarea.style.height = `${textarea.scrollHeight}px`;
       }
     }, [message]);
-
-    useEffect(() => {
-      textareaRef.current?.focus();
-    }, []);
 
     const onChangeText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
       setMessage(e.target.value);

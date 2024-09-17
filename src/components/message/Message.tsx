@@ -1,14 +1,15 @@
-import { CSSProperties } from "react";
+import { CSSProperties, memo } from "react";
 import styles from "./Message.module.scss";
 import { IGetMessage } from "../../types/socket.types";
 import { getDate } from "../../services/getDate";
 import { useLocation } from "react-router-dom";
+import { SERVER } from "../../consts";
 
 interface MessageProps {
   msg: IGetMessage;
 }
 
-const Message: React.FC<MessageProps> = ({ msg }) => {
+const Message: React.FC<MessageProps> = memo(({ msg }) => {
   const { search } = useLocation();
   const { name: user } = Object.fromEntries(new URLSearchParams(search));
   const { name, message, url } = msg;
@@ -29,7 +30,7 @@ const Message: React.FC<MessageProps> = ({ msg }) => {
           {url && (
             <img
               className={styles.img}
-              src={`http://localhost:5000${url}`}
+              src={`${SERVER}${url.slice(1)}`}
               alt="Uploaded file"
             />
           )}
@@ -38,6 +39,6 @@ const Message: React.FC<MessageProps> = ({ msg }) => {
       </div>
     </div>
   );
-};
+});
 
 export default Message;

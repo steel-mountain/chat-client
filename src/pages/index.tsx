@@ -4,8 +4,9 @@ import Login from "./Login/Login";
 import Chat from "./Chat/Chat";
 import { io } from "socket.io-client";
 import { SocketType } from "../types/socket.types";
+import { SERVER } from "../consts";
 
-const socket: SocketType = io("http://localhost:5000/");
+const socket: SocketType = io(SERVER);
 
 const Pages: React.FC = () => {
   return (

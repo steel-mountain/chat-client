@@ -14,12 +14,6 @@ const Menu: React.FC<IMenuProps> = memo(
     const photoRef = useRef<HTMLInputElement>(null);
     const documentRef = useRef<HTMLInputElement>(null);
 
-    const handleClick = (inputRef: React.RefObject<HTMLInputElement>) => {
-      if (inputRef.current) {
-        inputRef.current.click();
-      }
-    };
-
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       if (e.target.files) {
         setFile(e.target.files[0]);
@@ -31,17 +25,21 @@ const Menu: React.FC<IMenuProps> = memo(
     return (
       <>
         <ul className={styles.items}>
-          <li className={styles.item} onClick={() => handleClick(photoRef)}>
+          <li className={styles.item} onClick={() => photoRef.current?.click()}>
             <img className={styles.img} src={img} alt="icon" />
             <span>Photo</span>
             <input
               type="file"
+              accept=".png, .jpg, .jpeg"
               ref={photoRef}
               onChange={handleFileChange}
               className={styles.fileInput}
             />
           </li>
-          <li className={styles.item} onClick={() => handleClick(documentRef)}>
+          <li
+            className={styles.item}
+            // onClick={() => documentRef.current?.click()}
+          >
             <img className={styles.img} src={doc} alt="icon" />
             <span>File</span>
             <input
