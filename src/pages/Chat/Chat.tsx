@@ -8,12 +8,17 @@ import {
   ISocket,
   IUsers,
   IGetMessage,
+  IGetStatusMessage,
 } from "../../types/socket.types";
 
 const Chat: React.FC<ISocket> = ({ socket }) => {
   const [params, setParams] = useState<IFormData>({ name: "", room: "" });
   const [messages, setMessages] = useState<IGetMessage[]>([]);
   const [users, setUsers] = useState<IUsers[]>([]);
+  const [statusMessage, setStatusMessage] = useState<IGetStatusMessage>({
+    name: "",
+    status: false,
+  });
   const { search } = useLocation();
 
   useEffect(() => {
@@ -29,7 +34,11 @@ const Chat: React.FC<ISocket> = ({ socket }) => {
     socket.on("users", (data) => {
       setUsers(data);
     });
+    socket.on("typing", ({ name, status }) => {
+      setStatusMessage({ name, status });
+    });
     return () => {
+      socket.off("typing");
       socket.off("message");
       socket.off("users");
     };
@@ -37,7 +46,7 @@ const Chat: React.FC<ISocket> = ({ socket }) => {
 
   return (
     <section className={styles.wrapper}>
-      <Sidebar users={users} />
+      <Sidebar users={users} statusMessage={statusMessage} />
       <Content messages={messages} params={params} socket={socket} />
     </section>
   );

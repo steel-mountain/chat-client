@@ -14,6 +14,7 @@ import Menu from "../menu/Menu";
 import Modal from "../modal/Modal";
 import { useClickOutside } from "../../services/hooks/useOutsideClick";
 import { useTheme } from "../../theme/useTheme";
+import { useTypingStatus } from "../../services/hooks/useTypingStatus";
 
 interface IContentProps {
   messages: IGetMessage[];
@@ -36,6 +37,7 @@ const Content: React.FC<IContentProps> = memo(
 
     useClickOutside({ ref: emojiRef, setOpen: setOpenEmoji });
     useClickOutside({ ref: menuRef, setOpen: setOpenMenu });
+    useTypingStatus({ socket, params, message });
 
     useEffect(() => {
       textareaRef.current?.focus();

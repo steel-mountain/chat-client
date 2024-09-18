@@ -1,15 +1,16 @@
 import { memo, useState } from "react";
 import logo from "../../images/icons/logo.svg";
 import userphoto from "../../images/icons/user.svg";
-import { IUsers } from "../../types/socket.types";
+import { IGetStatusMessage, IUsers } from "../../types/socket.types";
 
 import styles from "./Sidebar.module.scss";
 
 interface ISidebarProps {
   users: IUsers[];
+  statusMessage: IGetStatusMessage;
 }
 
-const Sidebar: React.FC<ISidebarProps> = memo(({ users }) => {
+const Sidebar: React.FC<ISidebarProps> = memo(({ users, statusMessage }) => {
   const [search, setSearch] = useState("");
 
   const onChangeText = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,13 +43,22 @@ const Sidebar: React.FC<ISidebarProps> = memo(({ users }) => {
           ? users.map((user) => (
               <li className={styles.item} key={user.id}>
                 <img className={styles.photoImg} src={userphoto} alt="avatar" />
-                <p className={styles.photo}>{user.name}</p>
+                <div className={styles.description}>
+                  <p className={styles.photo}>{user.name}</p>
+                  {statusMessage.name === user.name && statusMessage.status ? (
+                    <span>Typing...</span>
+                  ) : null}
+                </div>
               </li>
             ))
           : filterUsers.map((user) => (
               <li className={styles.item} key={user.id}>
-                <img className={styles.photoImg} src={userphoto} alt="avatar" />
-                <p className={styles.photo}>{user.name}</p>
+                <div className={styles.description}>
+                  <p className={styles.photo}>{user.name}</p>
+                  {statusMessage.name === user.name && statusMessage.status ? (
+                    <span>Typing...</span>
+                  ) : null}
+                </div>
               </li>
             ))}
       </ul>

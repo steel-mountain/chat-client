@@ -5,9 +5,7 @@ export interface IFormData {
   room: string;
 }
 
-export interface IUsers {
-  name: string;
-  room: string;
+export interface IUsers extends IFormData {
   id: string;
 }
 
@@ -29,9 +27,19 @@ export interface IGetMessage {
   url?: string;
 }
 
+export interface IStatusMessage extends IFormData {
+  status: boolean;
+}
+
+export interface IGetStatusMessage {
+  name: string;
+  status: boolean;
+}
+
 export interface ServerToClientEvents {
   message: (data: IGetMessage) => void;
   users: (data: IUsers[]) => void;
+  typing: (data: IStatusMessage) => void;
 }
 
 export interface ClientToServerEvents {
@@ -39,6 +47,7 @@ export interface ClientToServerEvents {
   checkName: (data: IFormData, callback: (isUnique: boolean) => void) => void;
   logout: (data: IFormData) => void;
   sendMessage: (data: ISendMessage) => void;
+  typing: (data: IStatusMessage) => void;
 }
 
 export interface ISocket {

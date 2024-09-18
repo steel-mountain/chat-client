@@ -82,9 +82,16 @@
   border-radius: 100%;
 }
 
-.photo {
+.description {
   margin-left: 20px;
+  span {
+    color: #00a3ff;
+  }
+}
+
+.photo {
   font-weight: 600;
   font-size: 18px;
   color: var(--primary-color);
+  margin-bottom: 5px;
 }
