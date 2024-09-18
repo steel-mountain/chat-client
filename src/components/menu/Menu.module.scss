@@ -2,10 +2,10 @@
   position: absolute;
   top: -170px;
   left: -100px;
-  background-color: white;
+  background-color: var(--bg-color-input);
   padding: 10px;
   border-radius: 18px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-menu);
 }
 
 .item {
@@ -17,7 +17,7 @@
   display: flex;
   align-items: center;
   &:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--shadow-menu-item);
     transition: box-shadow 0.01s ease;
   }
 }

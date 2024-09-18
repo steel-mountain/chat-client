@@ -2,6 +2,9 @@ import styles from "./Content.module.scss";
 import smile from "../../images/icons/smile.svg";
 import send from "../../images/icons/send.svg";
 import paperclip from "../../images/icons/paperclip.svg";
+import logout from "../../images/icons/logout.svg";
+import lightMode from "../../images/icons/light-mode.svg";
+import darkMode from "../../images/icons/dark-mode.svg";
 import { memo, useEffect, useRef, useState } from "react";
 import Message from "../message/Message";
 import { IFormData, IGetMessage, SocketType } from "../../types/socket.types";
@@ -10,6 +13,7 @@ import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
 import Menu from "../menu/Menu";
 import Modal from "../modal/Modal";
 import { useClickOutside } from "../../services/hooks/useOutsideClick";
+import { useTheme } from "../../theme/useTheme";
 
 interface IContentProps {
   messages: IGetMessage[];
@@ -25,6 +29,7 @@ const Content: React.FC<IContentProps> = memo(
     const [isOpenMenu, setOpenMenu] = useState(false);
     const [isOpenModal, setOpenModal] = useState(false);
     const [file, setFile] = useState<File | null>(null);
+    const { theme, toggleTheme } = useTheme();
     const textareaRef = useRef<HTMLTextAreaElement>(null);
     const emojiRef = useRef<HTMLSpanElement>(null);
     const menuRef = useRef<HTMLDivElement>(null);
@@ -100,9 +105,18 @@ const Content: React.FC<IContentProps> = memo(
       <section className={styles.wrapper}>
         <div className={styles.header}>
           <div className={styles.name}>{params.room} room</div>
-          <button onClick={handleLogout} className={styles.logout}>
-            Leave chat
-          </button>
+          <div>
+            <button className={styles.btnHeader} onClick={() => toggleTheme()}>
+              <img
+                src={theme === "light" ? darkMode : lightMode}
+                alt="mode"
+                title="Change theme"
+              />
+            </button>
+            <button className={styles.btnHeader} onClick={handleLogout}>
+              <img src={logout} alt="logout" title="Log out" />
+            </button>
+          </div>
         </div>
         <div className={styles.content}>
           {messages.map((msg, i) => {

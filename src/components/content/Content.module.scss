@@ -3,36 +3,43 @@
   display: flex;
   flex-direction: column;
   overflow-y: hidden;
-  background-color: #f5f5f5;
+  background-color: var(--bg-color-primary);
+  color: var(--primary-color);
 }
 
 .header {
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  border-bottom: 1px solid #dfdfdf;
+  border-bottom: 1px solid var(--border-color);
   height: 90px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 26px;
-  background-color: #fff;
+  background-color: var(--bg-color-head-foot);
 }
 
 .name {
   font-weight: 500;
   font-size: 20px;
-  color: #515151;
 }
 
-.logout {
-  font-weight: 500;
-  font-size: 20px;
-  color: #515151;
-  background-color: transparent;
+// .logout {
+//   font-weight: 500;
+//   font-size: 20px;
+//   background-color: transparent;
+//   color: inherit;
+//   border: none;
+//   cursor: pointer;
+//   &:hover {
+//     color: #00a3ff;
+//   }
+// }
+.btnHeader {
+  width: 36px;
+  height: 36px;
+  background: transparent;
   border: none;
+  margin-right: 20px;
   cursor: pointer;
-  &:hover {
-    color: #00a3ff;
-  }
 }
 
 //======================CONTENT
@@ -41,6 +48,7 @@
   padding: 10px 26px;
   overflow-y: auto;
   height: 500px;
+  background-color: var(--bg-color-chat);
 }
 
 .emoji {
@@ -67,12 +75,11 @@
 
 //======================TYPING
 .typing {
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  border-top: 1px solid #dfdfdf;
+  border-top: 1px solid var(--border-color);
   padding: 16px 26px;
   display: flex;
   align-items: center;
-  background-color: #fff;
+  background-color: var(--bg-color-head-foot);
 }
 
 .inputMessage {
@@ -84,6 +91,8 @@
   resize: none;
   overflow-y: hidden;
   max-height: 400px;
+  background-color: inherit;
+  color: inherit;
   &:focus {
     outline-width: 0;
   }
