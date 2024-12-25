@@ -1,17 +1,17 @@
-import styles from "./Modal.module.scss";
-import { memo, useEffect, useRef, useState } from "react";
+import styles from "./styles.module.scss";
+import { FC, memo, useEffect, useRef, useState } from "react";
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
-import { useClickOutside } from "../../services/hooks/useOutsideClick";
-import smile from "../../images/icons/smile.svg";
+import { useClickOutside } from "../../shared/services/hooks/useOutsideClick";
+import smile from "../../shared/images/icons/smile.svg";
 
-interface IModalProps {
+interface ModalProps {
   file: File | null;
   onClose: () => void;
   onSend: (message: string) => void;
   message: string;
 }
 
-const Modal: React.FC<IModalProps> = memo(
+export const Modal: FC<ModalProps> = memo(
   ({ file, onClose, onSend, message }) => {
     const [msg, setMsg] = useState(message);
     const [isOpen, setOpen] = useState(false);
@@ -101,5 +101,3 @@ const Modal: React.FC<IModalProps> = memo(
     );
   }
 );
-
-export default Modal;

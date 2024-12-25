@@ -1,31 +1,38 @@
-import styles from "./Chat.module.scss";
-import Sidebar from "../../components/sidebar/Sidebar";
-import Content from "../../components/content/Content";
 import { useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import {
-  IFormData,
-  ISocket,
-  IUsers,
-  IGetMessage,
-  IGetStatusMessage,
-} from "../../types/socket.types";
+  LoginFormData,
+  Users,
+  GetMessage,
+  GetStatusMessage,
+  SocketType,
+} from "../../shared/types/socket.types";
+import { Content, Sidebar } from "../../components";
+import styles from "./styles.module.scss";
 
-const Chat: React.FC<ISocket> = ({ socket }) => {
-  const [params, setParams] = useState<IFormData>({ name: "", room: "" });
-  const [messages, setMessages] = useState<IGetMessage[]>([]);
-  const [users, setUsers] = useState<IUsers[]>([]);
-  const [statusMessage, setStatusMessage] = useState<IGetStatusMessage>({
+interface ChatProps {
+  socket: SocketType;
+}
+
+export const Chat: FC<ChatProps> = ({ socket }) => {
+  const [params, setParams] = useState<LoginFormData>({ name: "", room: "" });
+  const [messages, setMessages] = useState<GetMessage[]>([]);
+  const [users, setUsers] = useState<Users[]>([]);
+  const [statusMessage, setStatusMessage] = useState<GetStatusMessage>({
     name: "",
     status: false,
   });
   const { search } = useLocation();
 
   useEffect(() => {
-    const { name, room } = Object.fromEntries(new URLSearchParams(search));
+    const { name, room } = Object.fromEntries(
+      new URLSearchParams(search)
+    ) as Record<"name" | "room", string>;
+
+    if (!name || !room) return;
     setParams({ ...params, name, room });
     socket.emit("join", { name, room });
-  }, [search]);
+  }, [search, params, socket]);
 
   useEffect(() => {
     socket.on("message", (data) => {
@@ -38,9 +45,9 @@ const Chat: React.FC<ISocket> = ({ socket }) => {
       setStatusMessage({ name, status });
     });
     return () => {
-      socket.off("typing");
       socket.off("message");
       socket.off("users");
+      socket.off("typing");
     };
   }, []);
 
@@ -51,5 +58,3 @@ const Chat: React.FC<ISocket> = ({ socket }) => {
     </section>
   );
 };
-
-export default Chat;

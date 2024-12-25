@@ -1,0 +1,26 @@
+@import "./reset.scss";
+@import "./variables/global.scss";
+@import "./themes/light.scss";
+@import "./themes/dark.scss";
+
+.app {
+  font-family: var(--font-family-main);
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-thumb);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: var(--scrollbar-track-corner);
+}
+
+::-webkit-scrollbar-corner {
+  background-color: var(--scrollbar-track-corner);
+}

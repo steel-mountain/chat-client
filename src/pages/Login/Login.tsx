@@ -1,27 +1,34 @@
 import { useNavigate } from "react-router-dom";
-import styles from "./Login.module.scss";
-import { useState } from "react";
-import { IFormData, ISocket } from "../../types/socket.types";
-import { getTrimStr } from "../../services/getTrimStr";
+import { FC, useCallback, useState } from "react";
+import { LoginFormData, SocketType } from "../../shared/types/socket.types";
+import { getTrimStr } from "../../shared/services/getTrimStr";
+import clsx from "clsx";
+import styles from "./styles.module.scss";
 
-const Login: React.FC<ISocket> = ({ socket }) => {
+interface LoginProps {
+  socket: SocketType;
+}
+
+export const Login: FC<LoginProps> = ({ socket }) => {
   const navigate = useNavigate();
-  const [data, setData] = useState<IFormData>({
+  const [data, setData] = useState<LoginFormData>({
     name: "",
     room: "",
   });
 
-  const disable = Object.values(data).includes("");
-
-  const onChangeForm = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setData({
-      ...data,
-      [e.target.name]: e.target.value,
-    });
-  };
+  const onChangeForm = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setData({
+        ...data,
+        [e.target.name]: e.target.value,
+      });
+    },
+    [data]
+  );
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     socket.emit("checkName", data, (isUnique: boolean) => {
       if (isUnique) {
         navigate(
@@ -32,6 +39,8 @@ const Login: React.FC<ISocket> = ({ socket }) => {
       }
     });
   };
+
+  const disable = Object.values(data).includes("");
 
   return (
     <section className={styles.wrapper}>
@@ -55,7 +64,11 @@ const Login: React.FC<ISocket> = ({ socket }) => {
           value={data.room}
           required
         />
-        <button className={styles.btn} type="submit" disabled={disable}>
+        <button
+          className={clsx(styles.btn, { [styles["btn--active"]]: !disable })}
+          type="submit"
+          disabled={disable}
+        >
           Join and chat
         </button>
       </form>

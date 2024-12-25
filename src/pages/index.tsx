@@ -1,32 +1,23 @@
-import React from "react";
 import { Routes, Route } from "react-router-dom";
-import Login from "./Login/Login";
-import Chat from "./Chat/Chat";
+import { ChatAsync as Chat } from "./Chat/ChatAsync";
+import { LoginAsync as Login } from "./Login/LoginAsync";
 import { io } from "socket.io-client";
-import { SocketType } from "../types/socket.types";
-import { SERVER } from "../consts";
+import { SocketType } from "../shared/types/socket.types";
+import { SERVER } from "../shared/constants/consts";
+import { Suspense } from "react";
+import { Loader } from "../components";
+import { Notfound } from "./Notfound/Notfound";
 
 const socket: SocketType = io(SERVER);
 
-const Pages: React.FC = () => {
+export const Pages = () => {
   return (
-    <Routes>
-      <Route path="/" element={<Login socket={socket} />} />
-      <Route path="/chat" element={<Chat socket={socket} />} />
-    </Routes>
+    <Suspense fallback={<Loader />}>
+      <Routes>
+        <Route path="/" element={<Login socket={socket} />} />
+        <Route path="/chat" element={<Chat socket={socket} />} />
+        <Route path="*" element={<Notfound />} />
+      </Routes>
+    </Suspense>
   );
 };
-
-export default Pages;
-
-{
-  /* <Routes>
-<Route path="/" element={<Login />} />
-<Route path="/auth/register" element={<Register />} />
-
-<Route element={<Layout />}>
-  <Route path="/home" element={<Home />} />
-  <Route path="/job" element={<Job />} />
-</Route>
-</Routes> */
-}

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { SocketType } from "../../types/socket.types";
 
-interface IUseTypingStatus {
+interface UseTypingStatusType {
   socket: SocketType;
   params: {
     room: string;
@@ -10,11 +10,8 @@ interface IUseTypingStatus {
   message: string;
 }
 
-export const useTypingStatus = ({
-  socket,
-  params,
-  message,
-}: IUseTypingStatus) => {
+export const useTypingStatus = (props: UseTypingStatusType) => {
+  const { socket, params, message } = props;
   const [isTyping, setIsTyping] = useState(false);
 
   useEffect(() => {

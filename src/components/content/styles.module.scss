@@ -22,17 +22,6 @@
   font-size: 20px;
 }
 
-// .logout {
-//   font-weight: 500;
-//   font-size: 20px;
-//   background-color: transparent;
-//   color: inherit;
-//   border: none;
-//   cursor: pointer;
-//   &:hover {
-//     color: #00a3ff;
-//   }
-// }
 .btnHeader {
   width: 36px;
   height: 36px;
@@ -42,7 +31,6 @@
   cursor: pointer;
 }
 
-//======================CONTENT
 .content {
   flex-grow: 1;
   padding: 10px 26px;
@@ -73,7 +61,6 @@
   cursor: pointer;
 }
 
-//======================TYPING
 .typing {
   border-top: 1px solid var(--border-color);
   padding: 16px 26px;
@@ -102,7 +89,7 @@
   border-radius: 12px;
   width: 119px;
   height: 46px;
-  background: #00a3ff;
+  background: var(--bg-color-default);
   color: white;
   border: none;
   font-weight: 500;

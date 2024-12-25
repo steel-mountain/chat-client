@@ -1,58 +1,41 @@
-import styles from "./Menu.module.scss";
-import img from "../../images/icons/icon-img.svg";
-import doc from "../../images/icons/icon-doc.svg";
-import { memo, useRef } from "react";
+import { FC, memo, useRef } from "react";
+import styles from "./styles.module.scss";
+import img from "../../shared/images/icons/icon-img.svg";
 
-interface IMenuProps {
+interface MenuProps {
   setFile: React.Dispatch<React.SetStateAction<File | null>>;
   setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
   setOpenMenu: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Menu: React.FC<IMenuProps> = memo(
-  ({ setFile, setOpenModal, setOpenMenu }) => {
-    const photoRef = useRef<HTMLInputElement>(null);
-    const documentRef = useRef<HTMLInputElement>(null);
+export const Menu: FC<MenuProps> = memo((props) => {
+  const { setFile, setOpenModal, setOpenMenu } = props;
 
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      if (e.target.files) {
-        setFile(e.target.files[0]);
-        setOpenModal(true);
-        setOpenMenu(false);
-      }
-    };
+  const photoRef = useRef<HTMLInputElement>(null);
 
-    return (
-      <>
-        <ul className={styles.items}>
-          <li className={styles.item} onClick={() => photoRef.current?.click()}>
-            <img className={styles.img} src={img} alt="icon" />
-            <span>Photo</span>
-            <input
-              type="file"
-              accept=".png, .jpg, .jpeg"
-              ref={photoRef}
-              onChange={handleFileChange}
-              className={styles.fileInput}
-            />
-          </li>
-          <li
-            className={styles.item}
-            // onClick={() => documentRef.current?.click()}
-          >
-            <img className={styles.img} src={doc} alt="icon" />
-            <span>File</span>
-            <input
-              type="file"
-              ref={documentRef}
-              onChange={handleFileChange}
-              className={styles.fileInput}
-            />
-          </li>
-        </ul>
-      </>
-    );
-  }
-);
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setFile(e.target.files[0]);
+      setOpenModal(true);
+      setOpenMenu(false);
+    }
+  };
 
-export default Menu;
+  return (
+    <>
+      <ul className={styles.items}>
+        <li className={styles.item} onClick={() => photoRef.current?.click()}>
+          <img className={styles.img} src={img} alt="icon" />
+          <span>Photo</span>
+          <input
+            type="file"
+            accept=".png, .jpg, .jpeg"
+            ref={photoRef}
+            onChange={handleFileChange}
+            className={styles.fileInput}
+          />
+        </li>
+      </ul>
+    </>
+  );
+});

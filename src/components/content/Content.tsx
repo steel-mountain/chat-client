@@ -1,90 +1,115 @@
-import styles from "./Content.module.scss";
-import smile from "../../images/icons/smile.svg";
-import send from "../../images/icons/send.svg";
-import paperclip from "../../images/icons/paperclip.svg";
-import logout from "../../images/icons/logout.svg";
-import lightMode from "../../images/icons/light-mode.svg";
-import darkMode from "../../images/icons/dark-mode.svg";
-import { memo, useEffect, useRef, useState } from "react";
-import Message from "../message/Message";
-import { IFormData, IGetMessage, SocketType } from "../../types/socket.types";
+import {
+  FC,
+  memo,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import { Message } from "../message/Message";
+import {
+  LoginFormData,
+  GetMessage,
+  SocketType,
+} from "../../shared/types/socket.types";
 import { useNavigate } from "react-router-dom";
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
-import Menu from "../menu/Menu";
-import Modal from "../modal/Modal";
-import { useClickOutside } from "../../services/hooks/useOutsideClick";
-import { useTheme } from "../../theme/useTheme";
-import { useTypingStatus } from "../../services/hooks/useTypingStatus";
+import { Menu } from "../menu/Menu";
+import { Modal } from "../modal/Modal";
+import { useClickOutside } from "../../shared/services/hooks/useOutsideClick";
+import { useTypingStatus } from "../../shared/services/hooks/useTypingStatus";
+import { useTheme } from "../../shared/theme/useTheme";
+import styles from "./styles.module.scss";
+import smile from "../../shared/images/icons/smile.svg";
+import send from "../../shared/images/icons/send.svg";
+import paperclip from "../../shared/images/icons/paperclip.svg";
+import logout from "../../shared/images/icons/logout.svg";
+import lightMode from "../../shared/images/icons/light-mode.svg";
+import darkMode from "../../shared/images/icons/dark-mode.svg";
 
-interface IContentProps {
-  messages: IGetMessage[];
-  params: IFormData;
+interface ContentProps {
+  messages: GetMessage[];
+  params: LoginFormData;
   socket: SocketType;
 }
 
-const Content: React.FC<IContentProps> = memo(
-  ({ messages, params, socket }) => {
-    const navigate = useNavigate();
-    const [message, setMessage] = useState<string>("");
-    const [isOpenEmoji, setOpenEmoji] = useState(false);
-    const [isOpenMenu, setOpenMenu] = useState(false);
-    const [isOpenModal, setOpenModal] = useState(false);
-    const [file, setFile] = useState<File | null>(null);
-    const { theme, toggleTheme } = useTheme();
-    const textareaRef = useRef<HTMLTextAreaElement>(null);
-    const emojiRef = useRef<HTMLSpanElement>(null);
-    const menuRef = useRef<HTMLDivElement>(null);
+export const Content: FC<ContentProps> = memo((props) => {
+  const { messages, params, socket } = props;
 
-    useClickOutside({ ref: emojiRef, setOpen: setOpenEmoji });
-    useClickOutside({ ref: menuRef, setOpen: setOpenMenu });
-    useTypingStatus({ socket, params, message });
+  const [message, setMessage] = useState<string>("");
+  const [isOpenEmoji, setOpenEmoji] = useState(false);
+  const [isOpenMenu, setOpenMenu] = useState(false);
+  const [isOpenModal, setOpenModal] = useState(false);
+  const [file, setFile] = useState<File | null>(null);
 
-    useEffect(() => {
-      textareaRef.current?.focus();
+  const { theme, toggleTheme } = useTheme();
 
-      const textarea = textareaRef.current;
-      if (textarea) {
-        textarea.style.height = "auto";
-        textarea.style.height = `${textarea.scrollHeight}px`;
-      }
-    }, [message]);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const emojiRef = useRef<HTMLSpanElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
 
-    const onChangeText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const navigate = useNavigate();
+
+  useClickOutside({ ref: emojiRef, setOpen: setOpenEmoji });
+  useClickOutside({ ref: menuRef, setOpen: setOpenMenu });
+  useTypingStatus({ socket, params, message });
+
+  useEffect(() => {
+    textareaRef.current?.focus();
+
+    if (textareaRef.current) {
+      textareaRef.current.style.height = "auto";
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+    }
+  }, [message]);
+
+  const handleChangeText = useCallback(
+    (e: React.ChangeEvent<HTMLTextAreaElement>) => {
       setMessage(e.target.value);
-    };
+    },
+    []
+  );
 
-    const handleLogout = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleLogout = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
       e.preventDefault();
 
       if (window.confirm("Вы действительно хотите выйти?")) {
         socket.emit("logout", params);
         navigate("/");
       }
-    };
+    },
+    [params, navigate, socket]
+  );
 
-    const onSubmit = (e: React.FormEvent) => {
+  const handleSubmit = useCallback(
+    (e: React.FormEvent) => {
       e.preventDefault();
       if (message !== "") {
         socket.emit("sendMessage", { message, params });
         setMessage("");
       }
-    };
+    },
+    [message, params, socket]
+  );
 
-    const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-      if (e.key === "Enter") {
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+      if (e.key === "Enter" && !e.shiftKey) {
         e.preventDefault();
-        if (message !== "") {
-          socket.emit("sendMessage", { message, params });
-          setMessage("");
-        }
+        handleSubmit(e);
       }
-    };
+    },
+    [handleSubmit]
+  );
 
-    const handleEmoji = (e: EmojiClickData) => {
-      setMessage((msg) => `${msg} ${e.emoji}`);
-    };
+  const handleEmojiSelect = useCallback((e: EmojiClickData) => {
+    setMessage((msg) => `${msg} ${e.emoji}`);
+  }, []);
 
-    const handleSendFile = (message: string) => {
+  const handleSendFile = useCallback(
+    (message: string) => {
       if (file) {
         const reader = new FileReader();
 
@@ -101,82 +126,89 @@ const Content: React.FC<IContentProps> = memo(
         setOpenModal(false);
         reader.readAsArrayBuffer(file);
       }
-    };
+    },
+    [file, params, socket]
+  );
 
-    return (
-      <section className={styles.wrapper}>
-        <div className={styles.header}>
-          <div className={styles.name}>{params.room} room</div>
-          <div>
-            <button className={styles.btnHeader} onClick={() => toggleTheme()}>
-              <img
-                src={theme === "light" ? darkMode : lightMode}
-                alt="mode"
-                title="Change theme"
-              />
-            </button>
-            <button className={styles.btnHeader} onClick={handleLogout}>
-              <img src={logout} alt="logout" title="Log out" />
-            </button>
-          </div>
-        </div>
-        <div className={styles.content}>
-          {messages.map((msg, i) => {
-            return <Message key={i} msg={msg} />;
-          })}
-        </div>
-        <form className={styles.typing} onSubmit={onSubmit}>
-          {isOpenEmoji && (
-            <span className={styles.emojiBlock} ref={emojiRef}>
-              <EmojiPicker onEmojiClick={handleEmoji} />
-            </span>
+  const headerButtons = useMemo(
+    () => (
+      <>
+        <button className={styles.btnHeader} onClick={toggleTheme}>
+          <img
+            src={theme === "light" ? darkMode : lightMode}
+            alt="mode"
+            title="Change theme"
+          />
+        </button>
+        <button className={styles.btnHeader} onClick={handleLogout}>
+          <img src={logout} alt="logout" title="Log out" />
+        </button>
+      </>
+    ),
+    [handleLogout, theme, toggleTheme]
+  );
+
+  const messageList = useMemo(
+    () => messages.map((msg, i) => <Message key={i} msg={msg} />),
+    [messages]
+  );
+
+  return (
+    <section className={styles.wrapper}>
+      <div className={styles.header}>
+        <div className={styles.name}>{params.room} room</div>
+        <div>{headerButtons}</div>
+      </div>
+      <div className={styles.content}>{messageList}</div>
+      <form className={styles.typing} onSubmit={handleSubmit}>
+        {isOpenEmoji && (
+          <span className={styles.emojiBlock} ref={emojiRef}>
+            <EmojiPicker onEmojiClick={handleEmojiSelect} />
+          </span>
+        )}
+        <img
+          onClick={() => setOpenEmoji((prev) => !prev)}
+          className={styles.emoji}
+          src={smile}
+          alt="emoji"
+        />
+        <textarea
+          ref={textareaRef}
+          rows={1}
+          className={styles.inputMessage}
+          placeholder="Type message..."
+          value={message}
+          onChange={handleChangeText}
+          onKeyDown={handleKeyDown}
+        />
+        <div className={styles.menuBlock} ref={menuRef}>
+          {isOpenMenu && (
+            <Menu
+              setFile={setFile}
+              setOpenModal={setOpenModal}
+              setOpenMenu={setOpenMenu}
+            />
           )}
           <img
-            onClick={() => setOpenEmoji(!isOpenEmoji)}
-            className={styles.emoji}
-            src={smile}
-            alt="emoji"
+            className={styles.paperclip}
+            src={paperclip}
+            onClick={() => setOpenMenu((prev) => !prev)}
+            alt="paperclip"
           />
-          <textarea
-            ref={textareaRef}
-            rows={1}
-            className={styles.inputMessage}
-            placeholder="Type message..."
-            value={message}
-            onChange={onChangeText}
-            onKeyDown={handleKeyDown}
-          />
-          <div className={styles.menuBlock} ref={menuRef}>
-            {isOpenMenu && (
-              <Menu
-                setFile={setFile}
-                setOpenModal={setOpenModal}
-                setOpenMenu={setOpenMenu}
-              />
-            )}
-            <img
-              className={styles.paperclip}
-              src={paperclip}
-              onClick={() => setOpenMenu(!isOpenMenu)}
-              alt="paperclip"
-            />
-          </div>
-          <button type="submit" className={styles.btn}>
-            <span>Send</span>
-            <img src={send} alt="send message" />
-          </button>
-        </form>
-        {isOpenModal && file && (
-          <Modal
-            file={file}
-            onClose={() => setOpenModal(false)}
-            onSend={handleSendFile}
-            message={message}
-          />
-        )}
-      </section>
-    );
-  }
-);
-
-export default Content;
+        </div>
+        <button type="submit" className={styles.btn}>
+          <span>Send</span>
+          <img src={send} alt="send message" />
+        </button>
+      </form>
+      {isOpenModal && file && (
+        <Modal
+          file={file}
+          onClose={() => setOpenModal(false)}
+          onSend={handleSendFile}
+          message={message}
+        />
+      )}
+    </section>
+  );
+});

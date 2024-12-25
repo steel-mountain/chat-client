@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 
-interface IUseClickOutside {
+interface UseClickOutsideType {
   ref: React.RefObject<HTMLDivElement | HTMLSpanElement>;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const useClickOutside = ({ ref, setOpen }: IUseClickOutside) => {
+export const useClickOutside = ({ ref, setOpen }: UseClickOutsideType) => {
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (ref.current && !ref.current.contains(event.target as Node)) {

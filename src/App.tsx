@@ -1,6 +1,6 @@
-import Pages from "./pages";
-import "./styles/index.scss";
-import { useTheme } from "./theme/useTheme";
+import { useTheme } from "./shared/theme/useTheme";
+import { Pages } from "./pages";
+import "./shared/styles/index.scss";
 
 function App(): JSX.Element {
   const { theme } = useTheme();

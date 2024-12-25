@@ -1,15 +1,15 @@
-import { CSSProperties, memo } from "react";
-import styles from "./Message.module.scss";
-import { IGetMessage } from "../../types/socket.types";
-import { getDate } from "../../services/getDate";
+import { CSSProperties, FC, memo } from "react";
+import { GetMessage } from "../../shared/types/socket.types";
+import { getDate } from "../../shared/services/getDate";
 import { useLocation } from "react-router-dom";
-import { SERVER } from "../../consts";
+import { SERVER } from "../../shared/constants/consts";
+import styles from "./styles.module.scss";
 
 interface MessageProps {
-  msg: IGetMessage;
+  msg: GetMessage;
 }
 
-const Message: React.FC<MessageProps> = memo(({ msg }) => {
+export const Message: FC<MessageProps> = memo(({ msg }) => {
   const { search } = useLocation();
   const { name: user } = Object.fromEntries(new URLSearchParams(search));
   const { name, message, url } = msg;
@@ -40,5 +40,3 @@ const Message: React.FC<MessageProps> = memo(({ msg }) => {
     </div>
   );
 });
-
-export default Message;
