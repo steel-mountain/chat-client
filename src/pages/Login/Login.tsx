@@ -87,7 +87,6 @@ export const Login: FC<LoginProps> = ({ socket }) => {
         >
           Join and chat
         </button>
-        <button onClick={() => setError(true)}>Error!!!</button>
       </form>
     </section>
   );
