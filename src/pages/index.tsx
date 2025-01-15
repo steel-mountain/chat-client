@@ -3,7 +3,7 @@ import { ChatAsync as Chat } from "./Chat/ChatAsync";
 import { LoginAsync as Login } from "./Login/LoginAsync";
 import { io } from "socket.io-client";
 import { SocketType } from "../shared/types/socket.types";
-import { SERVER } from "../shared/constants/consts";
+import { SERVER } from "../shared/constants/constants";
 import { Suspense } from "react";
 import { Loader } from "../components";
 import { Notfound } from "./Notfound/Notfound";

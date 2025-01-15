@@ -20,6 +20,7 @@ import { Modal } from "../modal/Modal";
 import { useClickOutside } from "../../shared/services/hooks/useOutsideClick";
 import { useTypingStatus } from "../../shared/services/hooks/useTypingStatus";
 import { useTheme } from "../../shared/theme/useTheme";
+import { USER_INFO_STORAGE } from "../../shared/constants/constants";
 import styles from "./styles.module.scss";
 import smile from "../../shared/images/icons/smile.svg";
 import send from "../../shared/images/icons/send.svg";
@@ -77,6 +78,7 @@ export const Content: FC<ContentProps> = memo((props) => {
 
       if (window.confirm("Вы действительно хотите выйти?")) {
         socket.emit("logout", params);
+        sessionStorage.removeItem(USER_INFO_STORAGE);
         navigate("/");
       }
     },

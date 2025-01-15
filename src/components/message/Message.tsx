@@ -2,7 +2,7 @@ import { CSSProperties, FC, memo } from "react";
 import { GetMessage } from "../../shared/types/socket.types";
 import { getDate } from "../../shared/services/getDate";
 import { useLocation } from "react-router-dom";
-import { SERVER } from "../../shared/constants/consts";
+import { SERVER } from "../../shared/constants/constants";
 import styles from "./styles.module.scss";
 
 interface MessageProps {

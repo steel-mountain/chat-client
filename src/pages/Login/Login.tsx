@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { FC, useCallback, useState } from "react";
 import { LoginFormData, SocketType } from "../../shared/types/socket.types";
 import { getTrimStr } from "../../shared/services/getTrimStr";
+import { USER_INFO_STORAGE } from "../../shared/constants/constants";
 import clsx from "clsx";
 import styles from "./styles.module.scss";
 
@@ -33,6 +34,13 @@ export const Login: FC<LoginProps> = ({ socket }) => {
       if (isUnique) {
         navigate(
           `/chat?name=${getTrimStr(data.name)}&room=${getTrimStr(data.room)}`
+        );
+        sessionStorage.setItem(
+          USER_INFO_STORAGE,
+          JSON.stringify({
+            name: getTrimStr(data.name),
+            room: getTrimStr(data.room),
+          })
         );
       } else {
         alert("Nickname is already used, please choose another name");
@@ -75,5 +83,3 @@ export const Login: FC<LoginProps> = ({ socket }) => {
     </section>
   );
 };
-
-export default Login;

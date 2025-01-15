@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { FC, useEffect, useState } from "react";
 import {
   LoginFormData,
@@ -8,6 +8,7 @@ import {
   SocketType,
 } from "../../shared/types/socket.types";
 import { Content, Sidebar } from "../../components";
+import { USER_INFO_STORAGE } from "../../shared/constants/constants";
 import styles from "./styles.module.scss";
 
 interface ChatProps {
@@ -22,17 +23,32 @@ export const Chat: FC<ChatProps> = ({ socket }) => {
     name: "",
     status: false,
   });
+
   const { search } = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const { name, room } = Object.fromEntries(
+    const queryParams = Object.fromEntries(
       new URLSearchParams(search)
     ) as Record<"name" | "room", string>;
 
-    if (!name || !room) return;
-    setParams({ ...params, name, room });
-    socket.emit("join", { name, room });
-  }, [search, params, socket]);
+    const user = JSON.parse(
+      sessionStorage.getItem(USER_INFO_STORAGE) as string
+    ) as LoginFormData;
+
+    if (user === null) {
+      navigate("/");
+      return;
+    }
+
+    if (JSON.stringify(queryParams) !== JSON.stringify(user)) {
+      navigate(`/chat?name=${user.name}&room=${user.room}`);
+      return;
+    }
+
+    setParams({ ...params, ...user });
+    socket.emit("join", { ...user });
+  }, [search, socket]);
 
   useEffect(() => {
     socket.on("message", (data) => {
@@ -49,7 +65,7 @@ export const Chat: FC<ChatProps> = ({ socket }) => {
       socket.off("users");
       socket.off("typing");
     };
-  }, []);
+  }, [socket]);
 
   return (
     <section className={styles.wrapper}>
