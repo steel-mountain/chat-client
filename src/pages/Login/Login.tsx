@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { FC, useCallback, useState } from "react";
+import { FC, useCallback, useEffect, useState } from "react";
 import { LoginFormData, SocketType } from "../../shared/types/socket.types";
 import { getTrimStr } from "../../shared/services/getTrimStr";
 import { USER_INFO_STORAGE } from "../../shared/constants/constants";
@@ -16,6 +16,14 @@ export const Login: FC<LoginProps> = ({ socket }) => {
     name: "",
     room: "",
   });
+
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    if (error) {
+      throw new Error();
+    }
+  }, [error]);
 
   const onChangeForm = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -79,6 +87,7 @@ export const Login: FC<LoginProps> = ({ socket }) => {
         >
           Join and chat
         </button>
+        <button onClick={() => setError(true)}>Error!!!</button>
       </form>
     </section>
   );
