@@ -1,9 +1,9 @@
-import { useNavigate } from "react-router-dom"
-import { FC, useCallback, useEffect, useState } from "react"
-import { LoginFormData, SocketType } from "../../shared/types/socket.types"
-import { getTrimStr } from "../../shared/services/getTrimStr"
-import { USER_INFO_STORAGE } from "../../shared/constants/constants"
 import clsx from "clsx"
+import { FC, useCallback, useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { USER_INFO_STORAGE } from "../../shared/constants/constants"
+import { getTrimStr } from "../../shared/services/getTrimStr"
+import { LoginFormData, SocketType } from "../../shared/types/socket.types"
 import styles from "./styles.module.scss"
 
 interface LoginProps {
@@ -12,43 +12,28 @@ interface LoginProps {
 
 export const Login: FC<LoginProps> = ({ socket }) => {
   const navigate = useNavigate()
+
   const [data, setData] = useState<LoginFormData>({
     name: "",
     room: "",
   })
-
-  const [error, setError] = useState(false)
-
-  useEffect(() => {
-    if (error) {
-      throw new Error()
-    }
-  }, [error])
-
-  const onChangeForm = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setData({
-        ...data,
-        [e.target.name]: e.target.value,
-      })
-    },
-    [data],
-  )
+  const onChangeForm = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
+    setData((prev) => ({ ...prev, [name]: value }))
+  }, [])
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    socket.emit("checkName", data, (isUnique: boolean) => {
+    const name = data.name.trim()
+    const room = data.room.trim()
+
+    socket.emit("checkName", { name, room }, (isUnique: boolean) => {
       if (isUnique) {
-        navigate(
-          `/chat?name=${getTrimStr(data.name)}&room=${getTrimStr(data.room)}`,
-        )
+        navigate(`/chat?name=${getTrimStr(name)}&room=${getTrimStr(room)}`)
         sessionStorage.setItem(
           USER_INFO_STORAGE,
-          JSON.stringify({
-            name: getTrimStr(data.name),
-            room: getTrimStr(data.room),
-          }),
+          JSON.stringify({ name, room }),
         )
       } else {
         alert("Nickname is already used, please choose another name")
