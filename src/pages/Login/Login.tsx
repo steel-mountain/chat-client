@@ -1,62 +1,62 @@
-import { useNavigate } from "react-router-dom";
-import { FC, useCallback, useEffect, useState } from "react";
-import { LoginFormData, SocketType } from "../../shared/types/socket.types";
-import { getTrimStr } from "../../shared/services/getTrimStr";
-import { USER_INFO_STORAGE } from "../../shared/constants/constants";
-import clsx from "clsx";
-import styles from "./styles.module.scss";
+import { useNavigate } from "react-router-dom"
+import { FC, useCallback, useEffect, useState } from "react"
+import { LoginFormData, SocketType } from "../../shared/types/socket.types"
+import { getTrimStr } from "../../shared/services/getTrimStr"
+import { USER_INFO_STORAGE } from "../../shared/constants/constants"
+import clsx from "clsx"
+import styles from "./styles.module.scss"
 
 interface LoginProps {
-  socket: SocketType;
+  socket: SocketType
 }
 
 export const Login: FC<LoginProps> = ({ socket }) => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const [data, setData] = useState<LoginFormData>({
     name: "",
     room: "",
-  });
+  })
 
-  const [error, setError] = useState(false);
+  const [error, setError] = useState(false)
 
   useEffect(() => {
     if (error) {
-      throw new Error();
+      throw new Error()
     }
-  }, [error]);
+  }, [error])
 
   const onChangeForm = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setData({
         ...data,
         [e.target.name]: e.target.value,
-      });
+      })
     },
-    [data]
-  );
+    [data],
+  )
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    e.preventDefault()
 
     socket.emit("checkName", data, (isUnique: boolean) => {
       if (isUnique) {
         navigate(
-          `/chat?name=${getTrimStr(data.name)}&room=${getTrimStr(data.room)}`
-        );
+          `/chat?name=${getTrimStr(data.name)}&room=${getTrimStr(data.room)}`,
+        )
         sessionStorage.setItem(
           USER_INFO_STORAGE,
           JSON.stringify({
             name: getTrimStr(data.name),
             room: getTrimStr(data.room),
-          })
-        );
+          }),
+        )
       } else {
-        alert("Nickname is already used, please choose another name");
+        alert("Nickname is already used, please choose another name")
       }
-    });
-  };
+    })
+  }
 
-  const disable = Object.values(data).includes("");
+  const disable = Object.values(data).includes("")
 
   return (
     <section className={styles.wrapper}>
@@ -89,5 +89,5 @@ export const Login: FC<LoginProps> = ({ socket }) => {
         </button>
       </form>
     </section>
-  );
-};
+  )
+}

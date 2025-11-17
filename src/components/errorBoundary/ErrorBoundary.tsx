@@ -1,40 +1,40 @@
-import { Component, ErrorInfo } from "react";
-import { ErrorPage } from "../../pages/ErrorPage/ErrorPage";
+import { Component, ErrorInfo } from "react"
+import { ErrorPage } from "../../pages/ErrorPage/ErrorPage"
 
 interface Props {
-  children: React.ReactNode;
+  children: React.ReactNode
 }
 
 interface State {
-  hasError: boolean;
+  hasError: boolean
 }
 
 class ErrorBoundary extends Component<Props, State> {
   constructor(props: Props) {
-    super(props);
-    this.state = { hasError: false };
+    super(props)
+    this.state = { hasError: false }
   }
 
   static getDerivedStateFromError(error: Error) {
-    return { hasError: true };
+    return { hasError: true }
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     // You can also log the error to an error reporting service
-    console.log(error, errorInfo);
+    console.log(error, errorInfo)
   }
 
   render() {
-    const { hasError } = this.state;
-    const { children } = this.props;
+    const { hasError } = this.state
+    const { children } = this.props
 
     if (hasError) {
       // You can render any custom fallback UI
-      return <ErrorPage />;
+      return <ErrorPage />
     }
 
-    return children;
+    return children
   }
 }
 
-export default ErrorBoundary;
+export default ErrorBoundary

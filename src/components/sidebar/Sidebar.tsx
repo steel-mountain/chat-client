@@ -1,31 +1,31 @@
-import { FC, memo, useCallback, useMemo, useState } from "react";
-import { GetStatusMessage, Users } from "../../shared/types/socket.types";
-import logo from "../../shared/images/icons/logo.svg";
-import userphoto from "../../shared/images/icons/user.svg";
-import styles from "./styles.module.scss";
+import { FC, memo, useCallback, useMemo, useState } from "react"
+import { GetStatusMessage, Users } from "../../shared/types/socket.types"
+import logo from "../../shared/images/icons/logo.svg"
+import userphoto from "../../shared/images/icons/user.svg"
+import styles from "./styles.module.scss"
 
 interface SidebarProps {
-  users: Users[];
-  statusMessage: GetStatusMessage;
+  users: Users[]
+  statusMessage: GetStatusMessage
 }
 
 export const Sidebar: FC<SidebarProps> = memo((props) => {
-  const { users, statusMessage } = props;
-  const [search, setSearch] = useState("");
+  const { users, statusMessage } = props
+  const [search, setSearch] = useState("")
 
   const onChangeText = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
-  }, []);
+    setSearch(e.target.value)
+  }, [])
 
   const filterUsers = useMemo(
     () =>
       users?.filter((user) =>
-        user?.name.toLowerCase().includes(search.toLowerCase())
+        user?.name.toLowerCase().includes(search.toLowerCase()),
       ),
-    [users, search]
-  );
+    [users, search],
+  )
 
-  const displayedUsers = search === "" ? users : filterUsers;
+  const displayedUsers = search === "" ? users : filterUsers
 
   return (
     <section className={styles.sidebar}>
@@ -58,5 +58,5 @@ export const Sidebar: FC<SidebarProps> = memo((props) => {
         ))}
       </ul>
     </section>
-  );
-});
+  )
+})

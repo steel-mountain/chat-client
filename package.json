@@ -47,6 +47,7 @@
     ]
   },
   "devDependencies": {
-    "ajv": "^7.2.4"
+    "ajv": "^7.2.4",
+    "prettier": "3.6.2"
   }
 }

@@ -1,58 +1,58 @@
-import styles from "./styles.module.scss";
-import { FC, memo, useEffect, useRef, useState } from "react";
-import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
-import { useClickOutside } from "../../shared/services/hooks/useOutsideClick";
-import smile from "../../shared/images/icons/smile.svg";
+import styles from "./styles.module.scss"
+import { FC, memo, useEffect, useRef, useState } from "react"
+import EmojiPicker, { EmojiClickData } from "emoji-picker-react"
+import { useClickOutside } from "../../shared/services/hooks/useOutsideClick"
+import smile from "../../shared/images/icons/smile.svg"
 
 interface ModalProps {
-  file: File | null;
-  onClose: () => void;
-  onSend: (message: string) => void;
-  message: string;
+  file: File | null
+  onClose: () => void
+  onSend: (message: string) => void
+  message: string
 }
 
 export const Modal: FC<ModalProps> = memo(
   ({ file, onClose, onSend, message }) => {
-    const [msg, setMsg] = useState(message);
-    const [isOpen, setOpen] = useState(false);
-    const textareaRef = useRef<HTMLTextAreaElement>(null);
-    const emojiRef = useRef<HTMLSpanElement>(null);
+    const [msg, setMsg] = useState(message)
+    const [isOpen, setOpen] = useState(false)
+    const textareaRef = useRef<HTMLTextAreaElement>(null)
+    const emojiRef = useRef<HTMLSpanElement>(null)
 
-    useClickOutside({ ref: emojiRef, setOpen });
+    useClickOutside({ ref: emojiRef, setOpen })
 
     useEffect(() => {
-      const textarea = textareaRef.current;
+      const textarea = textareaRef.current
       if (textarea) {
-        textarea.style.height = "auto";
-        textarea.style.height = `${textarea.scrollHeight}px`;
+        textarea.style.height = "auto"
+        textarea.style.height = `${textarea.scrollHeight}px`
       }
-    }, [msg]);
+    }, [msg])
 
     useEffect(() => {
-      textareaRef.current?.focus();
-    }, []);
+      textareaRef.current?.focus()
+    }, [])
 
     const handleSend = () => {
       if (file) {
-        onSend(msg);
+        onSend(msg)
       }
-    };
+    }
 
     const onSubmit = (e: React.FormEvent) => {
-      e.preventDefault();
-      handleSend();
-    };
+      e.preventDefault()
+      handleSend()
+    }
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
       if (e.key === "Enter") {
-        e.preventDefault();
-        handleSend();
+        e.preventDefault()
+        handleSend()
       }
-    };
+    }
 
     const handleEmoji = (e: EmojiClickData) => {
-      setMsg((msg) => `${msg} ${e.emoji}`);
-    };
+      setMsg((msg) => `${msg} ${e.emoji}`)
+    }
 
     return (
       <div className={styles.modalOverlay}>
@@ -98,6 +98,6 @@ export const Modal: FC<ModalProps> = memo(
           </form>
         </div>
       </div>
-    );
-  }
-);
+    )
+  },
+)

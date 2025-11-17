@@ -6,131 +6,131 @@ import {
   useMemo,
   useRef,
   useState,
-} from "react";
-import { Message } from "../message/Message";
+} from "react"
+import { Message } from "../message/Message"
 import {
   LoginFormData,
   GetMessage,
   SocketType,
-} from "../../shared/types/socket.types";
-import { useNavigate } from "react-router-dom";
-import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
-import { Menu } from "../menu/Menu";
-import { Modal } from "../modal/Modal";
-import { useClickOutside } from "../../shared/services/hooks/useOutsideClick";
-import { useTypingStatus } from "../../shared/services/hooks/useTypingStatus";
-import { useTheme } from "../../shared/theme/useTheme";
-import { USER_INFO_STORAGE } from "../../shared/constants/constants";
-import styles from "./styles.module.scss";
-import smile from "../../shared/images/icons/smile.svg";
-import send from "../../shared/images/icons/send.svg";
-import paperclip from "../../shared/images/icons/paperclip.svg";
-import logout from "../../shared/images/icons/logout.svg";
-import lightMode from "../../shared/images/icons/light-mode.svg";
-import darkMode from "../../shared/images/icons/dark-mode.svg";
+} from "../../shared/types/socket.types"
+import { useNavigate } from "react-router-dom"
+import EmojiPicker, { EmojiClickData } from "emoji-picker-react"
+import { Menu } from "../menu/Menu"
+import { Modal } from "../modal/Modal"
+import { useClickOutside } from "../../shared/services/hooks/useOutsideClick"
+import { useTypingStatus } from "../../shared/services/hooks/useTypingStatus"
+import { useTheme } from "../../shared/theme/useTheme"
+import { USER_INFO_STORAGE } from "../../shared/constants/constants"
+import styles from "./styles.module.scss"
+import smile from "../../shared/images/icons/smile.svg"
+import send from "../../shared/images/icons/send.svg"
+import paperclip from "../../shared/images/icons/paperclip.svg"
+import logout from "../../shared/images/icons/logout.svg"
+import lightMode from "../../shared/images/icons/light-mode.svg"
+import darkMode from "../../shared/images/icons/dark-mode.svg"
 
 interface ContentProps {
-  messages: GetMessage[];
-  params: LoginFormData;
-  socket: SocketType;
+  messages: GetMessage[]
+  params: LoginFormData
+  socket: SocketType
 }
 
 export const Content: FC<ContentProps> = memo((props) => {
-  const { messages, params, socket } = props;
+  const { messages, params, socket } = props
 
-  const [message, setMessage] = useState<string>("");
-  const [isOpenEmoji, setOpenEmoji] = useState(false);
-  const [isOpenMenu, setOpenMenu] = useState(false);
-  const [isOpenModal, setOpenModal] = useState(false);
-  const [file, setFile] = useState<File | null>(null);
+  const [message, setMessage] = useState<string>("")
+  const [isOpenEmoji, setOpenEmoji] = useState(false)
+  const [isOpenMenu, setOpenMenu] = useState(false)
+  const [isOpenModal, setOpenModal] = useState(false)
+  const [file, setFile] = useState<File | null>(null)
 
-  const { theme, toggleTheme } = useTheme();
+  const { theme, toggleTheme } = useTheme()
 
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const emojiRef = useRef<HTMLSpanElement>(null);
-  const menuRef = useRef<HTMLDivElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
+  const emojiRef = useRef<HTMLSpanElement>(null)
+  const menuRef = useRef<HTMLDivElement>(null)
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
-  useClickOutside({ ref: emojiRef, setOpen: setOpenEmoji });
-  useClickOutside({ ref: menuRef, setOpen: setOpenMenu });
-  useTypingStatus({ socket, params, message });
+  useClickOutside({ ref: emojiRef, setOpen: setOpenEmoji })
+  useClickOutside({ ref: menuRef, setOpen: setOpenMenu })
+  useTypingStatus({ socket, params, message })
 
   useEffect(() => {
-    textareaRef.current?.focus();
+    textareaRef.current?.focus()
 
     if (textareaRef.current) {
-      textareaRef.current.style.height = "auto";
-      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+      textareaRef.current.style.height = "auto"
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`
     }
-  }, [message]);
+  }, [message])
 
   const handleChangeText = useCallback(
     (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-      setMessage(e.target.value);
+      setMessage(e.target.value)
     },
-    []
-  );
+    [],
+  )
 
   const handleLogout = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
-      e.preventDefault();
+      e.preventDefault()
 
       if (window.confirm("Вы действительно хотите выйти?")) {
-        socket.emit("logout", params);
-        sessionStorage.removeItem(USER_INFO_STORAGE);
-        navigate("/");
+        socket.emit("logout", params)
+        sessionStorage.removeItem(USER_INFO_STORAGE)
+        navigate("/")
       }
     },
-    [params, navigate, socket]
-  );
+    [params, navigate, socket],
+  )
 
   const handleSubmit = useCallback(
     (e: React.FormEvent) => {
-      e.preventDefault();
+      e.preventDefault()
       if (message !== "") {
-        socket.emit("sendMessage", { message, params });
-        setMessage("");
+        socket.emit("sendMessage", { message, params })
+        setMessage("")
       }
     },
-    [message, params, socket]
-  );
+    [message, params, socket],
+  )
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
       if (e.key === "Enter" && !e.shiftKey) {
-        e.preventDefault();
-        handleSubmit(e);
+        e.preventDefault()
+        handleSubmit(e)
       }
     },
-    [handleSubmit]
-  );
+    [handleSubmit],
+  )
 
   const handleEmojiSelect = useCallback((e: EmojiClickData) => {
-    setMessage((msg) => `${msg} ${e.emoji}`);
-  }, []);
+    setMessage((msg) => `${msg} ${e.emoji}`)
+  }, [])
 
   const handleSendFile = useCallback(
     (message: string) => {
       if (file) {
-        const reader = new FileReader();
+        const reader = new FileReader()
 
         reader.onload = () => {
-          const buffer = reader.result as ArrayBuffer;
+          const buffer = reader.result as ArrayBuffer
           socket.emit("sendMessage", {
             fileName: file.name,
             dataBuffer: buffer,
             message,
             params,
-          });
-          setMessage("");
-        };
-        setOpenModal(false);
-        reader.readAsArrayBuffer(file);
+          })
+          setMessage("")
+        }
+        setOpenModal(false)
+        reader.readAsArrayBuffer(file)
       }
     },
-    [file, params, socket]
-  );
+    [file, params, socket],
+  )
 
   const headerButtons = useMemo(
     () => (
@@ -147,13 +147,13 @@ export const Content: FC<ContentProps> = memo((props) => {
         </button>
       </>
     ),
-    [handleLogout, theme, toggleTheme]
-  );
+    [handleLogout, theme, toggleTheme],
+  )
 
   const messageList = useMemo(
     () => messages.map((msg, i) => <Message key={i} msg={msg} />),
-    [messages]
-  );
+    [messages],
+  )
 
   return (
     <section className={styles.wrapper}>
@@ -212,5 +212,5 @@ export const Content: FC<ContentProps> = memo((props) => {
         />
       )}
     </section>
-  );
-});
+  )
+})

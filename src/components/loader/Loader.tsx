@@ -1,4 +1,4 @@
-import "./styles.css";
+import "./styles.css"
 
 export const Loader = () => {
   return (
@@ -17,5 +17,5 @@ export const Loader = () => {
         <div></div>
       </div>
     </div>
-  );
-};
+  )
+}

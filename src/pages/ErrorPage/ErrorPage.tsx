@@ -1,9 +1,9 @@
-import styles from "./styles.module.scss";
+import styles from "./styles.module.scss"
 
 export const ErrorPage = () => {
   const reloadPage = () => {
-    window.location.reload();
-  };
+    window.location.reload()
+  }
 
   return (
     <div className={styles.wrapper}>
@@ -12,5 +12,5 @@ export const ErrorPage = () => {
         <button onClick={reloadPage}>Обновить страницу</button>
       </div>
     </div>
-  );
-};
+  )
+}
