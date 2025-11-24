@@ -1,4 +1,4 @@
-import { FC, memo, useCallback, useMemo, useState } from "react"
+import { FC, memo, useCallback, useEffect, useMemo, useState } from "react"
 import logo from "../../shared/images/icons/logo.svg"
 import userphoto from "../../shared/images/icons/user.svg"
 import { GetStatusMessage, Users } from "../../shared/types/socket.types"
@@ -17,15 +17,15 @@ export const Sidebar: FC<SidebarProps> = memo((props) => {
     setSearch(e.target.value)
   }, [])
 
-  const filterUsers = useMemo(
-    () =>
-      users?.filter((user) =>
-        user?.name.toLowerCase().includes(search.toLowerCase()),
-      ),
-    [users, search],
-  )
+  const filterUsers = useMemo(() => {
+    if (!users) return []
 
-  const displayedUsers = search === "" ? users : filterUsers
+    return users.filter((user) =>
+      user.name.toLowerCase().includes(search.toLowerCase()),
+    )
+  }, [users, search])
+
+  const displayedUsers = search ? filterUsers : users
 
   return (
     <section className={styles.sidebar}>
@@ -50,9 +50,9 @@ export const Sidebar: FC<SidebarProps> = memo((props) => {
             <img className={styles.photoImg} src={userphoto} alt="avatar" />
             <div className={styles.description}>
               <p className={styles.photo}>{user.name}</p>
-              {statusMessage.name === user.name && statusMessage.status ? (
+              {statusMessage.name === user.name && statusMessage.status && (
                 <span>Typing...</span>
-              ) : null}
+              )}
             </div>
           </li>
         ))}

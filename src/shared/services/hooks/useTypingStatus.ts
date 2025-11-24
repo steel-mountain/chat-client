@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useEffect, useRef } from "react"
 import { SocketType } from "../../types/socket.types"
 
 interface UseTypingStatusType {
@@ -12,23 +12,15 @@ interface UseTypingStatusType {
 
 export const useTypingStatus = (props: UseTypingStatusType) => {
   const { socket, params, message } = props
-  const [isTyping, setIsTyping] = useState(false)
+
+  const isTypingRef = useRef(false)
 
   useEffect(() => {
-    if (message !== "" && !isTyping) {
-      setIsTyping(true)
-      socket.emit("typing", { ...params, status: true })
+    const status = message !== ""
+
+    if (status !== isTypingRef.current) {
+      socket.emit("typing", { ...params, status })
+      isTypingRef.current = status
     }
-
-    const timeoutId = setTimeout(() => {
-      if (isTyping) {
-        setIsTyping(false)
-        socket.emit("typing", { ...params, status: false })
-      }
-    }, 200)
-
-    return () => clearTimeout(timeoutId)
-  }, [message, isTyping, socket, params])
-
-  return isTyping
+  }, [message, socket, params])
 }
