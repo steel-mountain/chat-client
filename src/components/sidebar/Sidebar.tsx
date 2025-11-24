@@ -1,7 +1,7 @@
 import { FC, memo, useCallback, useMemo, useState } from "react"
-import { GetStatusMessage, Users } from "../../shared/types/socket.types"
 import logo from "../../shared/images/icons/logo.svg"
 import userphoto from "../../shared/images/icons/user.svg"
+import { GetStatusMessage, Users } from "../../shared/types/socket.types"
 import styles from "./styles.module.scss"
 
 interface SidebarProps {

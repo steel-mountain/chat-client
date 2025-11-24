@@ -1,14 +1,14 @@
-import { useLocation, useNavigate } from "react-router-dom"
 import { FC, useEffect, useState } from "react"
-import {
-  LoginFormData,
-  Users,
-  GetMessage,
-  GetStatusMessage,
-  SocketType,
-} from "../../shared/types/socket.types"
+import { useLocation, useNavigate } from "react-router-dom"
 import { Content, Sidebar } from "../../components"
 import { USER_INFO_STORAGE } from "../../shared/constants/constants"
+import {
+  GetMessage,
+  GetStatusMessage,
+  LoginFormData,
+  SocketType,
+  Users,
+} from "../../shared/types/socket.types"
 import styles from "./styles.module.scss"
 
 interface ChatProps {
@@ -28,27 +28,23 @@ export const Chat: FC<ChatProps> = ({ socket }) => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    const queryParams = Object.fromEntries(
-      new URLSearchParams(search),
-    ) as Record<"name" | "room", string>
+    const queryParams = Object.fromEntries(new URLSearchParams(search))
 
-    const user = JSON.parse(
-      sessionStorage.getItem(USER_INFO_STORAGE) as string,
-    ) as LoginFormData
+    const storedUser = sessionStorage.getItem(USER_INFO_STORAGE)
+    const user = storedUser ? (JSON.parse(storedUser) as LoginFormData) : null
 
-    if (user === null) {
+    if (!user?.name || !user?.room) {
       navigate("/")
       return
     }
 
-    if (JSON.stringify(queryParams) !== JSON.stringify(user)) {
-      navigate(`/chat?name=${user.name}&room=${user.room}`)
-      return
-    }
+    navigate(`/chat?name=${queryParams.name}&room=${queryParams.room}`, {
+      replace: true,
+    })
 
-    setParams({ ...params, ...user })
-    socket.emit("join", { ...user })
-  }, [search, socket])
+    setParams((prev) => ({ ...prev, ...user }))
+    socket.emit("join", user)
+  }, [search, socket, navigate])
 
   useEffect(() => {
     socket.on("message", (data) => {
@@ -65,7 +61,7 @@ export const Chat: FC<ChatProps> = ({ socket }) => {
       socket.off("users")
       socket.off("typing")
     }
-  }, [socket])
+  }, [])
 
   return (
     <section className={styles.wrapper}>

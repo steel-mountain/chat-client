@@ -1,3 +1,4 @@
+import EmojiPicker, { EmojiClickData } from "emoji-picker-react"
 import {
   FC,
   memo,
@@ -7,27 +8,26 @@ import {
   useRef,
   useState,
 } from "react"
-import { Message } from "../message/Message"
-import {
-  LoginFormData,
-  GetMessage,
-  SocketType,
-} from "../../shared/types/socket.types"
 import { useNavigate } from "react-router-dom"
-import EmojiPicker, { EmojiClickData } from "emoji-picker-react"
-import { Menu } from "../menu/Menu"
-import { Modal } from "../modal/Modal"
+import { USER_INFO_STORAGE } from "../../shared/constants/constants"
+import darkMode from "../../shared/images/icons/dark-mode.svg"
+import lightMode from "../../shared/images/icons/light-mode.svg"
+import logout from "../../shared/images/icons/logout.svg"
+import paperclip from "../../shared/images/icons/paperclip.svg"
+import send from "../../shared/images/icons/send.svg"
+import smile from "../../shared/images/icons/smile.svg"
 import { useClickOutside } from "../../shared/services/hooks/useOutsideClick"
 import { useTypingStatus } from "../../shared/services/hooks/useTypingStatus"
 import { useTheme } from "../../shared/theme/useTheme"
-import { USER_INFO_STORAGE } from "../../shared/constants/constants"
+import {
+  GetMessage,
+  LoginFormData,
+  SocketType,
+} from "../../shared/types/socket.types"
+import { Menu } from "../menu/Menu"
+import { Message } from "../message/Message"
+import { Modal } from "../modal/Modal"
 import styles from "./styles.module.scss"
-import smile from "../../shared/images/icons/smile.svg"
-import send from "../../shared/images/icons/send.svg"
-import paperclip from "../../shared/images/icons/paperclip.svg"
-import logout from "../../shared/images/icons/logout.svg"
-import lightMode from "../../shared/images/icons/light-mode.svg"
-import darkMode from "../../shared/images/icons/dark-mode.svg"
 
 interface ContentProps {
   messages: GetMessage[]
