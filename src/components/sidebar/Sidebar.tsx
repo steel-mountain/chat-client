@@ -1,4 +1,4 @@
-import { FC, memo, useCallback, useEffect, useMemo, useState } from "react"
+import { ChangeEvent, FC, memo, useCallback, useMemo, useState } from "react"
 import logo from "../../shared/images/icons/logo.svg"
 import userphoto from "../../shared/images/icons/user.svg"
 import { GetStatusMessage, Users } from "../../shared/types/socket.types"
@@ -13,7 +13,7 @@ export const Sidebar: FC<SidebarProps> = memo((props) => {
   const { users, statusMessage } = props
   const [search, setSearch] = useState("")
 
-  const onChangeText = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChangeText = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value)
   }, [])
 

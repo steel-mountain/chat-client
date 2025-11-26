@@ -1,8 +1,8 @@
-import React, { FC, useMemo, useState } from "react"
+import { FC, ReactNode, useMemo, useState } from "react"
 import { LOCAL_STORAGE_THEME_KEY, Theme, ThemeContext } from "./ThemeContext"
 
 interface ThemeProviderProps {
-  children: React.ReactNode
+  children: ReactNode
 }
 
 const deafultTheme =

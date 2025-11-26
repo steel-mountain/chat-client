@@ -1,8 +1,8 @@
-import { useEffect } from "react"
+import { Dispatch, RefObject, SetStateAction, useEffect } from "react"
 
 interface UseClickOutsideType {
-  ref: React.RefObject<HTMLDivElement | HTMLSpanElement>
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>
+  ref: RefObject<HTMLDivElement | HTMLSpanElement>
+  setOpen: Dispatch<SetStateAction<boolean>>
 }
 
 export const useClickOutside = ({ ref, setOpen }: UseClickOutsideType) => {

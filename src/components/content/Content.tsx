@@ -1,7 +1,10 @@
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react"
 import {
+  ChangeEvent,
   FC,
-  memo,
+  FormEvent,
+  KeyboardEvent,
+  MouseEvent,
   useCallback,
   useEffect,
   useMemo,
@@ -35,7 +38,7 @@ interface ContentProps {
   socket: SocketType
 }
 
-export const Content: FC<ContentProps> = memo((props) => {
+export const Content: FC<ContentProps> = (props) => {
   const { messages, params, socket } = props
 
   const [message, setMessage] = useState<string>("")
@@ -66,14 +69,14 @@ export const Content: FC<ContentProps> = memo((props) => {
   }, [message])
 
   const handleChangeText = useCallback(
-    (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    (e: ChangeEvent<HTMLTextAreaElement>) => {
       setMessage(e.target.value)
     },
     [],
   )
 
   const handleLogout = useCallback(
-    (e: React.MouseEvent<HTMLButtonElement>) => {
+    (e: MouseEvent<HTMLButtonElement>) => {
       e.preventDefault()
 
       if (window.confirm("Вы действительно хотите выйти?")) {
@@ -86,7 +89,7 @@ export const Content: FC<ContentProps> = memo((props) => {
   )
 
   const handleSubmit = useCallback(
-    (e: React.FormEvent) => {
+    (e: FormEvent) => {
       e.preventDefault()
       if (message !== "") {
         socket.emit("sendMessage", { message, params })
@@ -97,7 +100,7 @@ export const Content: FC<ContentProps> = memo((props) => {
   )
 
   const handleKeyDown = useCallback(
-    (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    (e: KeyboardEvent<HTMLTextAreaElement>) => {
       if (e.key === "Enter" && !e.shiftKey) {
         e.preventDefault()
         handleSubmit(e)
@@ -213,4 +216,4 @@ export const Content: FC<ContentProps> = memo((props) => {
       )}
     </section>
   )
-})
+}

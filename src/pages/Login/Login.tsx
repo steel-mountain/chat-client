@@ -1,5 +1,5 @@
 import clsx from "clsx"
-import { FC, useCallback, useState } from "react"
+import { ChangeEvent, FC, FormEvent, useCallback, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { USER_INFO_STORAGE } from "../../shared/constants/constants"
 import { getTrimStr } from "../../shared/services/getTrimStr"
@@ -17,12 +17,12 @@ export const Login: FC<LoginProps> = ({ socket }) => {
     name: "",
     room: "",
   })
-  const onChangeForm = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChangeForm = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
     setData((prev) => ({ ...prev, [name]: value }))
   }, [])
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     const name = data.name.trim()

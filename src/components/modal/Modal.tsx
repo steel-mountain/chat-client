@@ -1,8 +1,16 @@
-import styles from "./styles.module.scss"
-import { FC, memo, useEffect, useRef, useState } from "react"
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react"
-import { useClickOutside } from "../../shared/services/hooks/useOutsideClick"
+import {
+  FC,
+  FormEvent,
+  KeyboardEvent,
+  memo,
+  useEffect,
+  useRef,
+  useState,
+} from "react"
 import smile from "../../shared/images/icons/smile.svg"
+import { useClickOutside } from "../../shared/services/hooks/useOutsideClick"
+import styles from "./styles.module.scss"
 
 interface ModalProps {
   file: File | null
@@ -38,12 +46,12 @@ export const Modal: FC<ModalProps> = memo(
       }
     }
 
-    const onSubmit = (e: React.FormEvent) => {
+    const onSubmit = (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault()
       handleSend()
     }
 
-    const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
       if (e.key === "Enter") {
         e.preventDefault()
         handleSend()

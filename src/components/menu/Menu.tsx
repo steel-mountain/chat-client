@@ -1,11 +1,11 @@
-import { FC, memo, useRef } from "react"
-import styles from "./styles.module.scss"
+import { ChangeEvent, Dispatch, FC, memo, SetStateAction, useRef } from "react"
 import img from "../../shared/images/icons/icon-img.svg"
+import styles from "./styles.module.scss"
 
 interface MenuProps {
-  setFile: React.Dispatch<React.SetStateAction<File | null>>
-  setOpenModal: React.Dispatch<React.SetStateAction<boolean>>
-  setOpenMenu: React.Dispatch<React.SetStateAction<boolean>>
+  setFile: Dispatch<SetStateAction<File | null>>
+  setOpenModal: Dispatch<SetStateAction<boolean>>
+  setOpenMenu: Dispatch<SetStateAction<boolean>>
 }
 
 export const Menu: FC<MenuProps> = memo((props) => {
@@ -13,7 +13,7 @@ export const Menu: FC<MenuProps> = memo((props) => {
 
   const photoRef = useRef<HTMLInputElement>(null)
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       setFile(e.target.files[0])
       setOpenModal(true)
