@@ -1,4 +1,4 @@
 import { io } from "socket.io-client"
-import { SERVER } from "../constants/constants"
+import { SERVER } from "../constants"
 
 export const socket = io(SERVER)

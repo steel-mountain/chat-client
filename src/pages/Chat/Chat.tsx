@@ -1,14 +1,14 @@
 import { FC, useEffect, useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 import { Content, Sidebar } from "../../components"
-import { USER_INFO_STORAGE } from "../../shared/constants/constants"
+import { USER_INFO_STORAGE } from "../../shared/constants"
 import {
   GetMessage,
   GetStatusMessage,
   LoginFormData,
   SocketType,
   Users,
-} from "../../shared/types/socket.types"
+} from "../../shared/types"
 import styles from "./styles.module.scss"
 
 interface ChatProps {

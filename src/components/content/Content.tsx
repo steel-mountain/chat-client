@@ -12,7 +12,7 @@ import {
   useState,
 } from "react"
 import { useNavigate } from "react-router-dom"
-import { USER_INFO_STORAGE } from "../../shared/constants/constants"
+import { USER_INFO_STORAGE } from "../../shared/constants"
 import darkMode from "../../shared/images/icons/dark-mode.svg"
 import lightMode from "../../shared/images/icons/light-mode.svg"
 import logout from "../../shared/images/icons/logout.svg"
@@ -22,11 +22,7 @@ import smile from "../../shared/images/icons/smile.svg"
 import { useClickOutside } from "../../shared/services/hooks/useOutsideClick"
 import { useTypingStatus } from "../../shared/services/hooks/useTypingStatus"
 import { useTheme } from "../../shared/theme/useTheme"
-import {
-  GetMessage,
-  LoginFormData,
-  SocketType,
-} from "../../shared/types/socket.types"
+import { GetMessage, LoginFormData, SocketType } from "../../shared/types"
 import { Menu } from "../menu/Menu"
 import { Message } from "../message/Message"
 import { Modal } from "../modal/Modal"
