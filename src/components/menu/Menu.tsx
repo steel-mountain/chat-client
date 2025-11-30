@@ -27,13 +27,7 @@ export const Menu: FC<MenuProps> = memo((props) => {
         <li className={styles.item} onClick={() => photoRef.current?.click()}>
           <img className={styles.img} src={img} alt="icon" />
           <span>Photo</span>
-          <input
-            type="file"
-            accept=".png, .jpg, .jpeg"
-            ref={photoRef}
-            onChange={handleFileChange}
-            className={styles.fileInput}
-          />
+          <input type="file" accept=".png, .jpg, .jpeg" ref={photoRef} onChange={handleFileChange} className={styles.fileInput} />
         </li>
       </ul>
     </>

@@ -31,10 +31,7 @@ export const Login: FC<LoginProps> = ({ socket }) => {
     socket.emit("checkName", { name, room }, (isUnique: boolean) => {
       if (isUnique) {
         navigate(`/chat?name=${getTrimStr(name)}&room=${getTrimStr(room)}`)
-        sessionStorage.setItem(
-          USER_INFO_STORAGE,
-          JSON.stringify({ name, room }),
-        )
+        sessionStorage.setItem(USER_INFO_STORAGE, JSON.stringify({ name, room }))
       } else {
         alert("Nickname is already used, please choose another name")
       }
@@ -65,11 +62,7 @@ export const Login: FC<LoginProps> = ({ socket }) => {
           value={data.room}
           required
         />
-        <button
-          className={clsx(styles.btn, { [styles["btn--active"]]: !disable })}
-          type="submit"
-          disabled={disable}
-        >
+        <button className={clsx(styles.btn, { [styles["btn--active"]]: !disable })} type="submit" disabled={disable}>
           Join and chat
         </button>
       </form>

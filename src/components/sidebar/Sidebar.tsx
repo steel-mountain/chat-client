@@ -20,9 +20,7 @@ export const Sidebar: FC<SidebarProps> = memo((props) => {
   const filterUsers = useMemo(() => {
     if (!users) return []
 
-    return users.filter((user) =>
-      user.name.toLowerCase().includes(search.toLowerCase()),
-    )
+    return users.filter((user) => user.name.toLowerCase().includes(search.toLowerCase()))
   }, [users, search])
 
   const displayedUsers = search ? filterUsers : users
@@ -35,13 +33,7 @@ export const Sidebar: FC<SidebarProps> = memo((props) => {
           <span className={styles.name}>Chat Buddies</span>
         </div>
         <div className={styles.inputWrapper}>
-          <input
-            className={styles.input}
-            type="text"
-            placeholder="Search people"
-            value={search}
-            onChange={onChangeText}
-          />
+          <input className={styles.input} type="text" placeholder="Search people" value={search} onChange={onChangeText} />
         </div>
       </div>
       <ul className={styles.items}>
@@ -50,9 +42,7 @@ export const Sidebar: FC<SidebarProps> = memo((props) => {
             <img className={styles.photoImg} src={userphoto} alt="avatar" />
             <div className={styles.description}>
               <p className={styles.photo}>{user.name}</p>
-              {statusMessage.name === user.name && statusMessage.status && (
-                <span>Typing...</span>
-              )}
+              {statusMessage.name === user.name && statusMessage.status && <span>Typing...</span>}
             </div>
           </li>
         ))}

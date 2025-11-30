@@ -44,10 +44,7 @@ export interface ServerToClientEvents {
 
 export interface ClientToServerEvents {
   join: (data: LoginFormData) => void
-  checkName: (
-    data: LoginFormData,
-    callback: (isUnique: boolean) => void,
-  ) => void
+  checkName: (data: LoginFormData, callback: (isUnique: boolean) => void) => void
   logout: (data: LoginFormData) => void
   sendMessage: (data: SendMessage) => void
   typing: (data: StatusMessage) => void

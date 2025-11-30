@@ -1,16 +1,5 @@
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react"
-import {
-  ChangeEvent,
-  FC,
-  FormEvent,
-  KeyboardEvent,
-  MouseEvent,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react"
+import { ChangeEvent, FC, FormEvent, KeyboardEvent, MouseEvent, useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { USER_INFO_STORAGE } from "../../shared/constants"
 import darkMode from "../../shared/images/icons/dark-mode.svg"
@@ -64,12 +53,9 @@ export const Content: FC<ContentProps> = (props) => {
     }
   }, [message])
 
-  const handleChangeText = useCallback(
-    (e: ChangeEvent<HTMLTextAreaElement>) => {
-      setMessage(e.target.value)
-    },
-    [],
-  )
+  const handleChangeText = useCallback((e: ChangeEvent<HTMLTextAreaElement>) => {
+    setMessage(e.target.value)
+  }, [])
 
   const handleLogout = useCallback(
     (e: MouseEvent<HTMLButtonElement>) => {
@@ -135,11 +121,7 @@ export const Content: FC<ContentProps> = (props) => {
     () => (
       <>
         <button className={styles.btnHeader} onClick={toggleTheme}>
-          <img
-            src={theme === "light" ? darkMode : lightMode}
-            alt="mode"
-            title="Change theme"
-          />
+          <img src={theme === "light" ? darkMode : lightMode} alt="mode" title="Change theme" />
         </button>
         <button className={styles.btnHeader} onClick={handleLogout}>
           <img src={logout} alt="logout" title="Log out" />
@@ -149,10 +131,7 @@ export const Content: FC<ContentProps> = (props) => {
     [handleLogout, theme, toggleTheme],
   )
 
-  const messageList = useMemo(
-    () => messages.map((msg, i) => <Message key={i} msg={msg} />),
-    [messages],
-  )
+  const messageList = useMemo(() => messages.map((msg, i) => <Message key={i} msg={msg} />), [messages])
 
   return (
     <section className={styles.wrapper}>
@@ -167,12 +146,7 @@ export const Content: FC<ContentProps> = (props) => {
             <EmojiPicker onEmojiClick={handleEmojiSelect} />
           </span>
         )}
-        <img
-          onClick={() => setOpenEmoji((prev) => !prev)}
-          className={styles.emoji}
-          src={smile}
-          alt="emoji"
-        />
+        <img onClick={() => setOpenEmoji((prev) => !prev)} className={styles.emoji} src={smile} alt="emoji" />
         <textarea
           ref={textareaRef}
           rows={1}
@@ -183,33 +157,15 @@ export const Content: FC<ContentProps> = (props) => {
           onKeyDown={handleKeyDown}
         />
         <div className={styles.menuBlock} ref={menuRef}>
-          {isOpenMenu && (
-            <Menu
-              setFile={setFile}
-              setOpenModal={setOpenModal}
-              setOpenMenu={setOpenMenu}
-            />
-          )}
-          <img
-            className={styles.paperclip}
-            src={paperclip}
-            onClick={() => setOpenMenu((prev) => !prev)}
-            alt="paperclip"
-          />
+          {isOpenMenu && <Menu setFile={setFile} setOpenModal={setOpenModal} setOpenMenu={setOpenMenu} />}
+          <img className={styles.paperclip} src={paperclip} onClick={() => setOpenMenu((prev) => !prev)} alt="paperclip" />
         </div>
         <button type="submit" className={styles.btn}>
           <span>Send</span>
           <img src={send} alt="send message" />
         </button>
       </form>
-      {isOpenModal && file && (
-        <Modal
-          file={file}
-          onClose={() => setOpenModal(false)}
-          onSend={handleSendFile}
-          message={message}
-        />
-      )}
+      {isOpenModal && file && <Modal file={file} onClose={() => setOpenModal(false)} onSend={handleSendFile} message={message} />}
     </section>
   )
 }
