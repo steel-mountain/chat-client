@@ -1,5 +1,6 @@
 import { ChangeEvent, Dispatch, FC, memo, SetStateAction, useRef } from "react"
 import img from "../../shared/images/icons/icon-img.svg"
+import { Input } from "../../shared/ui"
 import styles from "./styles.module.scss"
 
 interface MenuProps {
@@ -27,7 +28,7 @@ export const Menu: FC<MenuProps> = memo((props) => {
         <li className={styles.item} onClick={() => photoRef.current?.click()}>
           <img className={styles.img} src={img} alt="icon" />
           <span>Photo</span>
-          <input type="file" accept=".png, .jpg, .jpeg" ref={photoRef} onChange={handleFileChange} className={styles.fileInput} />
+          <Input type="file" accept=".png, .jpg, .jpeg" ref={photoRef} onChange={handleFileChange} className={styles.fileInput} />
         </li>
       </ul>
     </>

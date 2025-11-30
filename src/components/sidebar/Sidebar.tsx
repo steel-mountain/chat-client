@@ -2,6 +2,7 @@ import { ChangeEvent, FC, memo, useCallback, useMemo, useState } from "react"
 import logo from "../../shared/images/icons/logo.svg"
 import userphoto from "../../shared/images/icons/user.svg"
 import { GetStatusMessageType, UsersType } from "../../shared/types"
+import { Input } from "../../shared/ui"
 import styles from "./styles.module.scss"
 
 interface SidebarProps {
@@ -33,7 +34,7 @@ export const Sidebar: FC<SidebarProps> = memo((props) => {
           <span className={styles.name}>Chat Buddies</span>
         </div>
         <div className={styles.inputWrapper}>
-          <input className={styles.input} type="text" placeholder="Search people" value={search} onChange={onChangeText} />
+          <Input className={styles.input} type="text" placeholder="Search people" value={search} onChange={onChangeText} />
         </div>
       </div>
       <ul className={styles.items}>

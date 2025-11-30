@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom"
 import { USER_INFO_STORAGE } from "../../shared/constants"
 import { getTrimStr } from "../../shared/services/getTrimStr"
 import { LoginFormType, SocketType } from "../../shared/types"
-import { Button } from "../../shared/ui"
+import { Button, Input } from "../../shared/ui"
 import styles from "./styles.module.scss"
 
 interface LoginProps {
@@ -45,7 +45,7 @@ export const Login: FC<LoginProps> = ({ socket }) => {
     <section className={styles.wrapper}>
       <form className={styles.form} onSubmit={onSubmit}>
         <h1 className={styles.title}>Chatting rooms</h1>
-        <input
+        <Input
           name="name"
           className={styles.input}
           placeholder="Name"
@@ -54,7 +54,7 @@ export const Login: FC<LoginProps> = ({ socket }) => {
           value={data.name}
           required
         />
-        <input
+        <Input
           name="room"
           className={styles.input}
           placeholder="Chat room"
