@@ -1,8 +1,6 @@
 import { ChangeEvent, FC, memo, useCallback, useMemo, useState } from "react"
-import logo from "../../shared/images/icons/logo.svg"
-import userphoto from "../../shared/images/icons/user.svg"
 import { GetStatusMessageType, UsersType } from "../../shared/types"
-import { Input } from "../../shared/ui"
+import { Icon, Input } from "../../shared/ui"
 import styles from "./styles.module.scss"
 
 interface SidebarProps {
@@ -30,7 +28,7 @@ export const Sidebar: FC<SidebarProps> = memo((props) => {
     <section className={styles.sidebar}>
       <div className={styles.header}>
         <div className={styles.container}>
-          <img src={logo} alt="logo" />
+          <Icon name="Logo" />
           <span className={styles.name}>Chat Buddies</span>
         </div>
         <div className={styles.inputWrapper}>
@@ -40,7 +38,7 @@ export const Sidebar: FC<SidebarProps> = memo((props) => {
       <ul className={styles.items}>
         {displayedUsers.map((user) => (
           <li className={styles.item} key={user.id}>
-            <img className={styles.photoImg} src={userphoto} alt="avatar" />
+            <Icon className={styles.photoImg} name="User" />
             <div className={styles.description}>
               <p className={styles.photo}>{user.name}</p>
               {statusMessage.name === user.name && statusMessage.status && <span>Typing...</span>}

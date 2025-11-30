@@ -1,8 +1,7 @@
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react"
 import { FC, FormEvent, KeyboardEvent, useEffect, useRef, useState } from "react"
-import smile from "../../shared/images/icons/smile.svg"
 import { useClickOutside } from "../../shared/services/hooks/useOutsideClick"
-import { Button } from "../../shared/ui"
+import { Button, Icon } from "../../shared/ui"
 import styles from "./styles.module.scss"
 
 interface ModalProps {
@@ -67,7 +66,8 @@ export const Modal: FC<ModalProps> = ({ file, onClose, onSend, message }) => {
             </span>
           )}
           <div className={styles.formContainer}>
-            <img onClick={() => setOpen(!isOpen)} className={styles.emoji} src={smile} alt="emoji" />
+            {/* <img  /> */}
+            <Icon name="Smile" onClick={() => setOpen(!isOpen)} className={styles.emoji} />
             <textarea
               ref={textareaRef}
               rows={3}
