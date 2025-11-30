@@ -32,6 +32,7 @@ export const Content: FC<ContentProps> = (props) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const emojiRef = useRef<HTMLSpanElement>(null)
   const menuRef = useRef<HTMLDivElement>(null)
+  const contentRef = useRef<HTMLDivElement>(null)
 
   const navigate = useNavigate()
 
@@ -47,6 +48,13 @@ export const Content: FC<ContentProps> = (props) => {
       textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`
     }
   }, [message])
+
+  useEffect(() => {
+    const el = contentRef.current
+    if (!el) return
+
+    el.scrollTop = el.scrollHeight
+  }, [messages])
 
   const handleChangeText = useCallback((e: ChangeEvent<HTMLTextAreaElement>) => {
     setMessage(e.target.value)
@@ -134,7 +142,9 @@ export const Content: FC<ContentProps> = (props) => {
         <div className={styles.name}>{params.room} room</div>
         <div>{headerButtons}</div>
       </div>
-      <div className={styles.content}>{messageList}</div>
+      <div ref={contentRef} className={styles.content}>
+        {messageList}
+      </div>
       <form className={styles.typing} onSubmit={handleSubmit}>
         {isOpenEmoji && (
           <span className={styles.emojiBlock} ref={emojiRef}>
