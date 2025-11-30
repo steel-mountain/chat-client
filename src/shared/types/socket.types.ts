@@ -1,53 +1,48 @@
 import { Socket } from "socket.io-client"
 
-export interface LoginFormData {
+export interface LoginFormType {
   name: string
   room: string
 }
 
-export interface Users extends LoginFormData {
+export interface UsersType extends LoginFormType {
   id: string
 }
 
-export interface EmitMessage {
-  name: string
-  message: string
-}
-
-export interface SendMessage {
-  params: LoginFormData
+interface SendMessageType {
+  params: LoginFormType
   message?: string
   fileName?: string
   dataBuffer?: ArrayBuffer
 }
 
-export interface GetMessage {
+export interface GetMessageType {
   name: string
   message?: string
   url?: string
 }
 
-export interface StatusMessage extends LoginFormData {
+interface StatusMessageType extends LoginFormType {
   status: boolean
 }
 
-export interface GetStatusMessage {
+export interface GetStatusMessageType {
   name: string
   status: boolean
 }
 
-export interface ServerToClientEvents {
-  message: (data: GetMessage) => void
-  users: (data: Users[]) => void
-  typing: (data: StatusMessage) => void
+interface ServerToClientEventsType {
+  message: (data: GetMessageType) => void
+  users: (data: UsersType[]) => void
+  typing: (data: StatusMessageType) => void
 }
 
-export interface ClientToServerEvents {
-  join: (data: LoginFormData) => void
-  checkName: (data: LoginFormData, callback: (isUnique: boolean) => void) => void
-  logout: (data: LoginFormData) => void
-  sendMessage: (data: SendMessage) => void
-  typing: (data: StatusMessage) => void
+interface ClientToServerEventsType {
+  join: (data: LoginFormType) => void
+  checkName: (data: LoginFormType, callback: (isUnique: boolean) => void) => void
+  logout: (data: LoginFormType) => void
+  sendMessage: (data: SendMessageType) => void
+  typing: (data: StatusMessageType) => void
 }
 
-export type SocketType = Socket<ServerToClientEvents, ClientToServerEvents>
+export type SocketType = Socket<ServerToClientEventsType, ClientToServerEventsType>

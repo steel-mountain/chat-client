@@ -1,12 +1,12 @@
 import { ChangeEvent, FC, memo, useCallback, useMemo, useState } from "react"
 import logo from "../../shared/images/icons/logo.svg"
 import userphoto from "../../shared/images/icons/user.svg"
-import { GetStatusMessage, Users } from "../../shared/types"
+import { GetStatusMessageType, UsersType } from "../../shared/types"
 import styles from "./styles.module.scss"
 
 interface SidebarProps {
-  users: Users[]
-  statusMessage: GetStatusMessage
+  users: UsersType[]
+  statusMessage: GetStatusMessageType
 }
 
 export const Sidebar: FC<SidebarProps> = memo((props) => {

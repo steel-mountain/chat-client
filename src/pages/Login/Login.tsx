@@ -3,7 +3,7 @@ import { ChangeEvent, FC, FormEvent, useCallback, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { USER_INFO_STORAGE } from "../../shared/constants"
 import { getTrimStr } from "../../shared/services/getTrimStr"
-import { LoginFormData, SocketType } from "../../shared/types"
+import { LoginFormType, SocketType } from "../../shared/types"
 import styles from "./styles.module.scss"
 
 interface LoginProps {
@@ -13,7 +13,7 @@ interface LoginProps {
 export const Login: FC<LoginProps> = ({ socket }) => {
   const navigate = useNavigate()
 
-  const [data, setData] = useState<LoginFormData>({
+  const [data, setData] = useState<LoginFormType>({
     name: "",
     room: "",
   })

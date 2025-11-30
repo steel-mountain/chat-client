@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 import { Content, Sidebar } from "../../components"
 import { USER_INFO_STORAGE } from "../../shared/constants"
-import { GetMessage, GetStatusMessage, LoginFormData, SocketType, Users } from "../../shared/types"
+import { GetMessageType, GetStatusMessageType, LoginFormType, SocketType, UsersType } from "../../shared/types"
 import styles from "./styles.module.scss"
 
 interface ChatProps {
@@ -10,10 +10,10 @@ interface ChatProps {
 }
 
 export const Chat: FC<ChatProps> = ({ socket }) => {
-  const [params, setParams] = useState<LoginFormData>({ name: "", room: "" })
-  const [messages, setMessages] = useState<GetMessage[]>([])
-  const [users, setUsers] = useState<Users[]>([])
-  const [statusMessage, setStatusMessage] = useState<GetStatusMessage>({
+  const [params, setParams] = useState<LoginFormType>({ name: "", room: "" })
+  const [messages, setMessages] = useState<GetMessageType[]>([])
+  const [users, setUsers] = useState<UsersType[]>([])
+  const [statusMessage, setStatusMessage] = useState<GetStatusMessageType>({
     name: "",
     status: false,
   })
@@ -25,7 +25,7 @@ export const Chat: FC<ChatProps> = ({ socket }) => {
     const queryParams = Object.fromEntries(new URLSearchParams(search))
 
     const storedUser = sessionStorage.getItem(USER_INFO_STORAGE)
-    const user = storedUser ? (JSON.parse(storedUser) as LoginFormData) : null
+    const user = storedUser ? (JSON.parse(storedUser) as LoginFormType) : null
 
     if (!user?.name || !user?.room) {
       navigate("/")

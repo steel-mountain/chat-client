@@ -11,15 +11,15 @@ import smile from "../../shared/images/icons/smile.svg"
 import { useClickOutside } from "../../shared/services/hooks/useOutsideClick"
 import { useTypingStatus } from "../../shared/services/hooks/useTypingStatus"
 import { useTheme } from "../../shared/theme/useTheme"
-import { GetMessage, LoginFormData, SocketType } from "../../shared/types"
+import { GetMessageType, LoginFormType, SocketType } from "../../shared/types"
 import { Menu } from "../menu/Menu"
 import { Message } from "../message/Message"
 import { Modal } from "../modal/Modal"
 import styles from "./styles.module.scss"
 
 interface ContentProps {
-  messages: GetMessage[]
-  params: LoginFormData
+  messages: GetMessageType[]
+  params: LoginFormType
   socket: SocketType
 }
 
@@ -67,7 +67,7 @@ export const Content: FC<ContentProps> = (props) => {
         navigate("/")
       }
     },
-    [params, navigate, socket],
+    [params, socket, navigate],
   )
 
   const handleSubmit = useCallback(
@@ -128,7 +128,7 @@ export const Content: FC<ContentProps> = (props) => {
         </button>
       </>
     ),
-    [handleLogout, theme, toggleTheme],
+    [theme, handleLogout, toggleTheme],
   )
 
   const messageList = useMemo(() => messages.map((msg, i) => <Message key={i} msg={msg} />), [messages])

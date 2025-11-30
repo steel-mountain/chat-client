@@ -6,9 +6,9 @@ import styles from "./styles.module.scss"
 
 interface ModalProps {
   file: File | null
+  message: string
   onClose: () => void
   onSend: (message: string) => void
-  message: string
 }
 
 export const Modal: FC<ModalProps> = memo(({ file, onClose, onSend, message }) => {

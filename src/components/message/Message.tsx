@@ -2,11 +2,11 @@ import { CSSProperties, FC } from "react"
 import { useLocation } from "react-router-dom"
 import { SERVER } from "../../shared/constants"
 import { getDate } from "../../shared/services/getDate"
-import { GetMessage } from "../../shared/types"
+import { GetMessageType } from "../../shared/types"
 import styles from "./styles.module.scss"
 
 interface MessageProps {
-  msg: GetMessage
+  msg: GetMessageType
 }
 
 export const Message: FC<MessageProps> = ({ msg }) => {
