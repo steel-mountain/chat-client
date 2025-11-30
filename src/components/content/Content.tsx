@@ -12,6 +12,7 @@ import { useClickOutside } from "../../shared/services/hooks/useOutsideClick"
 import { useTypingStatus } from "../../shared/services/hooks/useTypingStatus"
 import { useTheme } from "../../shared/theme/useTheme"
 import { GetMessageType, LoginFormType, SocketType } from "../../shared/types"
+import { Button } from "../../shared/ui"
 import { Menu } from "../menu/Menu"
 import { Message } from "../message/Message"
 import { Modal } from "../modal/Modal"
@@ -120,12 +121,12 @@ export const Content: FC<ContentProps> = (props) => {
   const headerButtons = useMemo(
     () => (
       <>
-        <button className={styles.btnHeader} onClick={toggleTheme}>
+        <Button className={styles.btnHeader} onClick={toggleTheme}>
           <img src={theme === "light" ? darkMode : lightMode} alt="mode" title="Change theme" />
-        </button>
-        <button className={styles.btnHeader} onClick={handleLogout}>
+        </Button>
+        <Button className={styles.btnHeader} onClick={handleLogout}>
           <img src={logout} alt="logout" title="Log out" />
-        </button>
+        </Button>
       </>
     ),
     [theme, handleLogout, toggleTheme],
@@ -160,10 +161,10 @@ export const Content: FC<ContentProps> = (props) => {
           {isOpenMenu && <Menu setFile={setFile} setOpenModal={setOpenModal} setOpenMenu={setOpenMenu} />}
           <img className={styles.paperclip} src={paperclip} onClick={() => setOpenMenu((prev) => !prev)} alt="paperclip" />
         </div>
-        <button type="submit" className={styles.btn}>
+        <Button type="submit" className={styles.btn}>
           <span>Send</span>
           <img src={send} alt="send message" />
-        </button>
+        </Button>
       </form>
       {isOpenModal && file && <Modal file={file} onClose={() => setOpenModal(false)} onSend={handleSendFile} message={message} />}
     </section>

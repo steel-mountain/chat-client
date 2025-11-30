@@ -1,3 +1,4 @@
+import { Button } from "../../shared/ui"
 import styles from "./styles.module.scss"
 
 export const ErrorPage = () => {
@@ -9,7 +10,7 @@ export const ErrorPage = () => {
     <div className={styles.wrapper}>
       <div className={styles.inner}>
         <p>Произошла непредвиденная ошибка</p>
-        <button onClick={reloadPage}>Обновить страницу</button>
+        <Button onClick={reloadPage}>Обновить страницу</Button>
       </div>
     </div>
   )

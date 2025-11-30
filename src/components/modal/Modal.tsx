@@ -1,7 +1,8 @@
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react"
-import { FC, FormEvent, KeyboardEvent, memo, useEffect, useRef, useState } from "react"
+import { FC, FormEvent, KeyboardEvent, useEffect, useRef, useState } from "react"
 import smile from "../../shared/images/icons/smile.svg"
 import { useClickOutside } from "../../shared/services/hooks/useOutsideClick"
+import { Button } from "../../shared/ui"
 import styles from "./styles.module.scss"
 
 interface ModalProps {
@@ -11,7 +12,7 @@ interface ModalProps {
   onSend: (message: string) => void
 }
 
-export const Modal: FC<ModalProps> = memo(({ file, onClose, onSend, message }) => {
+export const Modal: FC<ModalProps> = ({ file, onClose, onSend, message }) => {
   const [msg, setMsg] = useState(message)
   const [isOpen, setOpen] = useState(false)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
@@ -77,14 +78,14 @@ export const Modal: FC<ModalProps> = memo(({ file, onClose, onSend, message }) =
               onKeyDown={handleKeyDown}
             />
           </div>
-          <button onClick={handleSend} className={styles.sendButton}>
+          <Button onClick={handleSend} className={styles.sendButton}>
             Send
-          </button>
-          <button onClick={onClose} className={styles.closeButton}>
+          </Button>
+          <Button onClick={onClose} className={styles.closeButton}>
             Close
-          </button>
+          </Button>
         </form>
       </div>
     </div>
   )
-})
+}

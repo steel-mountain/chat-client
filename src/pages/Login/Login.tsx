@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom"
 import { USER_INFO_STORAGE } from "../../shared/constants"
 import { getTrimStr } from "../../shared/services/getTrimStr"
 import { LoginFormType, SocketType } from "../../shared/types"
+import { Button } from "../../shared/ui"
 import styles from "./styles.module.scss"
 
 interface LoginProps {
@@ -62,9 +63,9 @@ export const Login: FC<LoginProps> = ({ socket }) => {
           value={data.room}
           required
         />
-        <button className={clsx(styles.btn, { [styles["btn--active"]]: !disable })} type="submit" disabled={disable}>
+        <Button className={clsx(styles.btn, { [styles["btn--active"]]: !disable })} type="submit" disabled={disable}>
           Join and chat
-        </button>
+        </Button>
       </form>
     </section>
   )
